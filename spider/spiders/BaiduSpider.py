@@ -1,6 +1,6 @@
 import urllib
 from time import sleep
-from spider.Connect_MongoDB import MyMongoDB
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -48,7 +48,6 @@ class BaiduSpider(object):
             contentdiv = div.find('div')
             abstract = contentdiv.text
             time = div.find('span').text
-
             h3 = div.find('h3')
             taga = h3.find('a')
             href = taga.get('href')
