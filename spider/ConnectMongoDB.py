@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 
-class MyMongoDB:
+class MyMongoDB(object):
     def __init__(self):
         self.client = MongoClient('localhost', 27017)
         self.db = self.client.crawlSpider
