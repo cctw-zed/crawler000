@@ -38,7 +38,9 @@ class Spider(object):
             ['搜狐网', 'sohu.com'],
             ['凤凰网', 'ifeng.com'],
             # ['新浪网', 'sina.com'],
-            ['腾讯网', 'qq.com']
+            ['腾讯网', 'qq.com'],
+	    ['中国人大网','npc.gov.cn'],
+	    ['北京人大网','bjrd.gov.cn']
         ]
 
 
@@ -94,7 +96,7 @@ class Spider(object):
         # print("run begin!")
         for i in range(len(self.sitelist)):
             site = self.sitelist[i]
-            for j in range(5):
+            for j in range(3):
                 sleep(1)
                 res = self.getContent(self.keyword, j + 1, site)
                 #print(res)
