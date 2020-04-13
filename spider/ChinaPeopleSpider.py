@@ -61,10 +61,10 @@ class ChinaPeopleSpider(object):
                 res['real_url '] = hrefurl
                 res['abstract'] = content
                 res['time'] = time
-                res['platform'] = '中国人大网'
+                res['site'] = '中国人大网'
                 res['keyword'] = self.keyword
                 self.connection.insert(res)
-                print(res)
+                # print(res)
             except:
                 continue
 
