@@ -30,8 +30,8 @@ class BaiduSpider(object):
             ['凤凰网', 'ifeng.com'],
             ['新浪网', 'sina.com'],
             ['腾讯网', 'qq.com'],
-            ['中国人大网','npc.gov.cn'],
-            ['北京人大网','bjrd.gov.cn']
+            # ['中国人大网','npc.gov.cn'],
+            # ['北京人大网','bjrd.gov.cn']
         ]
 
 

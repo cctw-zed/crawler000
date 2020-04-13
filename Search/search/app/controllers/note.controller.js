@@ -138,7 +138,7 @@ exports.findAll = (req, res) => {
             temp.title = item.title || "None";
             temp.time = item.time || "None";
             temp.url = item.real_url || "None";
-            temp.platform = item.site || "Node";
+            temp.platform = item.site || "None";
 
             contentlist.push(temp);
         }
