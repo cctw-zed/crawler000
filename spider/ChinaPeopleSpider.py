@@ -1,5 +1,6 @@
 from time import sleep
 from bs4 import BeautifulSoup
+from ConnectMongoDB import MyMongoDB
 import requests
 import urllib.request
 
@@ -16,6 +17,7 @@ class ChinaPeopleSpider(object):
         self.keyword = keyword
         self.pageNum = pageNum
         self.pageSize = pageSize
+        self.connection = MyMongoDB()
 
     def getUrl(self,keyword,pageIndex):
         url = 'http://zs.kaipuyun.cn/s'
@@ -49,18 +51,22 @@ class ChinaPeopleSpider(object):
         divs = soup.find_all('div', attrs={'class':'wordGuide Residence-permit'})
         
         for div in divs:
-            title = div.find('a').text
-            hrefurl = div.find('a').get('href')
-            content = div.find('p',attrs={'class': 'summaryFont'}).text
-            time = div.find('p', attrs={'class': 'time'}).find('span', attrs={'class': 'sourceDateFont'}).text
-            res = {}
-            res['title'] = title
-            res['real_url '] = hrefurl
-            res['abstract'] = content
-            res['time'] = time
-            res['platform'] = '中国人大网'
-            res['keyword'] = self.keyword
-            print(res)
+            try:
+                title = div.find('a').text
+                hrefurl = div.find('a').get('href')
+                content = div.find('p',attrs={'class': 'summaryFont'}).text
+                time = div.find('p', attrs={'class': 'time'}).find('span', attrs={'class': 'sourceDateFont'}).text
+                res = {}
+                res['title'] = title
+                res['real_url '] = hrefurl
+                res['abstract'] = content
+                res['time'] = time
+                res['site'] = '中国人大网'
+                res['keyword'] = self.keyword
+                self.connection.insert(res)
+                # print(res)
+            except:
+                continue
 
     def run(self):
         for i in range(self.pageNum):

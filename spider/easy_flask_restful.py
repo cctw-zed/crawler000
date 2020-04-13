@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_restful import reqparse, abort, Api, Resource
-from Connect_MongoDB import MyMongoDB
-from spiders.BaiduSpider import BaiduSpider
+from BaiduSpider import BaiduSpider
+from BeijingPeopleSpider import BeijingSpider
+from ChinaPeopleSpider import ChinaPeopleSpider
 import threading
 
 # 做简单的Application初始化
@@ -19,9 +20,17 @@ class my_easy_class(Resource):
         keyword = args['keyword']
 
         #爬虫
-        sp = BaiduSpider(keyword)
-        thread_hi = threading.Thread(target=sp.run)
-        thread_hi.start()
+        baiduspider = BaiduSpider(keyword)
+        beijingSpider = BeijingSpider(keyword)
+        chinaSpider = ChinaPeopleSpider(keyword)
+
+        thread_baidu = threading.Thread(target=baiduspider.run)
+        thread_beijing = threading.Thread(target=baiduspider.run)
+        thread_china = threading.Thread(target=chinaSpider.run)
+         
+        thread_baidu.start()
+        thread_beijing.start()
+        thread_china.start()
 
         op = {'re': 'it\'s working'}
         return op
