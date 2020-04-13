@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from pymongo import MongoClient
 
 
-class Spider(object):
+class BaiduSpider(object):
 
     def __init__(self, keyword):
         self.keyword = keyword

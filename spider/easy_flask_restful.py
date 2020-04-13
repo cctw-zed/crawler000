@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import reqparse, abort, Api, Resource
 from Connect_MongoDB import MyMongoDB
-from Spider import Spider
+from spiders.BaiduSpider import BaiduSpider
 import threading
 
 # 做简单的Application初始化
@@ -64,7 +64,7 @@ class my_easy_class(Resource):
         keyword = args['keyword']
 
         #爬虫
-        sp = Spider(keyword)
+        sp = BaiduSpider(keyword)
         thread_hi = threading.Thread(target=sp.run)
         thread_hi.start()
 
