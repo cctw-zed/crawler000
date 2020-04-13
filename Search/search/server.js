@@ -31,9 +31,11 @@ app.get('/', (req, res) => {
     res.json({"message": "Welcome to EasyNotes application. Take notes quickly. Organize and keep track of all your notes."});
 });
 
+// 绑定路由，就是这个文件，其实就是写.get .post .put函数
 require('./app/routes/note.routes.js')(app);
 
 // listen for requests
+// 绑定端口号3000
 app.listen(3000, () => {
     console.log("Server is listening on port 3000");
 });

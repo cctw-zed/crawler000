@@ -77,8 +77,10 @@ exports.findAll = (req, res) => {
     let params = req.query;
     // 获得参数相应的字段
     let paramskw = params.keyword;
+
     // 正则表达式匹配
     var cut_keyword = nodejieba.cut(paramskw);
+    console.log(cut_keyword);
     var blurry_cut_keyword = [];
     for(var item of cut_keyword)
     {
@@ -92,7 +94,7 @@ exports.findAll = (req, res) => {
     let paramsppn = params.perPageNumber;
     paramsppn = Number(paramsppn);
 
-    // 结巴分词，用或进行查找
+    // 用或进行查找,同时进行模糊查找
     Note.find({  keyword : {"$in": blurry_cut_keyword} })
     .then(notes => {
         let len = notes.length;
