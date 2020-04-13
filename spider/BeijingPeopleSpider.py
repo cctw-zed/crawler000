@@ -1,5 +1,6 @@
 from time import sleep
 from bs4 import BeautifulSoup
+from ConnectMongoDB import MyMongoDB
 import requests
 import urllib.request
 import re
@@ -18,6 +19,7 @@ class BeijingSpider(object):
         self.keyword = keyword
         self.pageNum = pageNum
         self.pageSize = pageSize
+        self.connection = MyMongoDB()
         
   
     def getPage(self, pageIndex):
@@ -46,26 +48,27 @@ class BeijingSpider(object):
         # print(page)
     def parserPage(self,page):
         soup = BeautifulSoup(page,'lxml').find('div',  attrs={'class': 'search_con'})
-        
         titles = soup.find_all('p', attrs={'class': 'search_con_title'})
         contents = soup.find_all('p', attrs={'class': 'search_con_txt'})
         dates = soup.find_all('p', attrs={'class': 'search_con_date'})
         for i in range(len(titles)):
-            title = titles[i].text
-            hrefurl = titles[i].find('a').get('href')
-            if hrefurl == '':
+            try:
+                title = titles[i].text
+                hrefurl = titles[i].find('a').get('href')
+                if hrefurl == '':
+                    continue
+                content = contents[i].text
+                date = re.findall(r'\t(.+?)\n',dates[i].text)[0].strip()
+                res = {}
+                res['title'] = title.strip()
+                res['real_url'] = hrefurl
+                res['abstract'] = content.strip()
+                res['time'] = date
+                res['site'] = '北京市人大网'
+                res['keyword'] = self.keyword
+                self.connection.insert(res)
+            except:
                 continue
-            content = contents[i].text
-            date = re.findall(r'\t(.+?)\n',dates[i].text)[0].strip()
-        
-            res = {}
-            res['title'] = title.strip()
-            res['real_url'] = hrefurl
-            res['abstract'] = content.strip()
-            res['time'] = date
-            res['site'] = '北京市人大网'
-            res['keyword'] = self.keyword
-            print(res)
     def run(self):
         for i in range(self.pageNum):
             sleep(2)

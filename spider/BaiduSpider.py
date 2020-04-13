@@ -1,6 +1,6 @@
 import urllib
 from time import sleep
-
+from ConnectMongoDB import MyMongoDB
 import requests
 from bs4 import BeautifulSoup
 
@@ -28,10 +28,10 @@ class BaiduSpider(object):
             ['人民网', 'people.com.cn'],
             ['搜狐网', 'sohu.com'],
             ['凤凰网', 'ifeng.com'],
-            # ['新浪网', 'sina.com'],
+            ['新浪网', 'sina.com'],
             ['腾讯网', 'qq.com'],
-	        ['中国人大网','npc.gov.cn'],
-	        ['北京人大网','bjrd.gov.cn']
+            ['中国人大网','npc.gov.cn'],
+            ['北京人大网','bjrd.gov.cn']
         ]
 
 
@@ -45,26 +45,29 @@ class BaiduSpider(object):
         # print(divs)
         reslist = []
         for div in divs:
-            contentdiv = div.find('div')
-            abstract = contentdiv.text
-            time = div.find('span').text
-            h3 = div.find('h3')
-            taga = h3.find('a')
-            href = taga.get('href')
-            title = taga.text
-            baidu_url = requests.get(url=href, headers= self.headers, allow_redirects=False)
-            real_url = baidu_url.headers['Location']  # 得到网页原始地址
-            if real_url.startswith('http'):
-                res = {}
-                res['title'] = title
-                res['time'] = time.replace('-', '').replace(' ', '')
-                res['real_url'] = real_url
-                res['abstract'] = abstract
-                res['keyword'] = keyword
-                res['site'] = site[0]
-                # 放进数据库
-                self.connection.insert()
-                reslist.append(res)
+            try:
+                contentdiv = div.find('div')
+                abstract = contentdiv.text
+                time = div.find('span').text
+                h3 = div.find('h3')
+                taga = h3.find('a')
+                href = taga.get('href')
+                title = taga.text
+                baidu_url = requests.get(url=href, headers= self.headers, allow_redirects=False)
+                real_url = baidu_url.headers['Location']  # 得到网页原始地址
+                if real_url.startswith('http'):
+                    res = {}
+                    res['title'] = title
+                    res['time'] = time.replace('-', '').replace(' ', '')
+                    res['real_url'] = real_url
+                    res['abstract'] = abstract
+                    res['keyword'] = keyword
+                    res['site'] = site[0]
+                    # 放进数据库
+                    self.connection.insert(res)
+                    reslist.append(res)
+            except:
+                continue
         return reslist
 
     def getContent(self, keyword, pageIndex, site):
