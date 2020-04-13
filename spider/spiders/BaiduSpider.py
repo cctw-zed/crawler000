@@ -1,23 +1,14 @@
 import urllib
 from time import sleep
-
+from spider.Connect_MongoDB import MyMongoDB
 import requests
 from bs4 import BeautifulSoup
-from pymongo import MongoClient
-
 
 class BaiduSpider(object):
 
     def __init__(self, keyword):
         self.keyword = keyword
-        self.server = '94.191.125.33'
-        self.port = 27017
-        self.client = MongoClient('localhost', 27017)
-        self.db = self.client.crawlSpider
-        self.dbCollection = self.db.baidu_infos
-
-        self.col_working = self.db.workings
-
+        self.connection = MyMongoDB()
         self.headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
             'Accept-Encoding': 'deflate, br',
@@ -39,8 +30,8 @@ class BaiduSpider(object):
             ['凤凰网', 'ifeng.com'],
             # ['新浪网', 'sina.com'],
             ['腾讯网', 'qq.com'],
-	    ['中国人大网','npc.gov.cn'],
-	    ['北京人大网','bjrd.gov.cn']
+	        ['中国人大网','npc.gov.cn'],
+	        ['北京人大网','bjrd.gov.cn']
         ]
 
 
@@ -73,7 +64,7 @@ class BaiduSpider(object):
                 res['keyword'] = keyword
                 res['site'] = site[0]
                 # 放进数据库
-                self.dbCollection.insert_one(res)
+                self.connection.insert()
                 reslist.append(res)
         return reslist
 
@@ -88,10 +79,6 @@ class BaiduSpider(object):
         else:
             return ''
 
-    def delete_keyword(self):
-        self.col_working.delete_one({"keyword":self.keyword})
-
-
     def run(self):
         # print("run begin!")
         for i in range(len(self.sitelist)):
@@ -101,5 +88,5 @@ class BaiduSpider(object):
                 res = self.getContent(self.keyword, j + 1, site)
                 #print(res)
         print("sasss")
-        self.delete_keyword()
+        self.connection.deleteKeyword(self.keyword)
 

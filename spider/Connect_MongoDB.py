@@ -2,10 +2,14 @@ from pymongo import MongoClient
 
 
 class MyMongoDB:
-    def __init__(self, url, port, db_name, col_name):
-        self.client = MongoClient(url, port)
-        self.db = self.client[db_name]
-        self.col = self.db[col_name]
-
-    def Insert_Many_Items(self, mylist):
-        self.col.insert_many(mylist)
+    def __init__(self):
+        self.client = MongoClient('localhost', 27017)
+        self.db = self.client.crawlSpider
+        self.dbCollection = self.db.baidu_infos
+        self.col_working = self.db.workings
+    # 插入一条结果
+    def insert(self, res):
+        self.dbCollection.insert_one(res)
+    # 在working表中删除关键词
+    def deleteKeyword(self, keyword):
+        self.col_working.delete_one({"keyword": keyword})
