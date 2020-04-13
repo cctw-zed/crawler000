@@ -64,7 +64,7 @@ class BaiduSpider(object):
                 res['keyword'] = keyword
                 res['site'] = site[0]
                 # 放进数据库
-                self.connection.insert()
+                self.connection.insert(res)
                 reslist.append(res)
         return reslist
 
