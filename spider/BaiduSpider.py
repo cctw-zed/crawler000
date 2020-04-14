@@ -91,4 +91,4 @@ class BaiduSpider(object):
                 #print(res)
         print("sasss")
         self.connection.deleteKeyword(self.keyword)
-
+        
