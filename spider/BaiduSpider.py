@@ -26,12 +26,12 @@ class BaiduSpider(object):
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
         }
         self.sitelist = [
-            ['新华网', 'xinhuanet.com'],
-            ['人民网', 'people.com.cn'],
+            # ['新华网', 'xinhuanet.com'],
+            # ['人民网', 'people.com.cn'],
             ['搜狐网', 'sohu.com'],
-            ['凤凰网', 'ifeng.com'],
+            # ['凤凰网', 'ifeng.com'],
             ['新浪网', 'sina.com'],
-            ['腾讯网', 'qq.com'],
+            # ['腾讯网', 'qq.com'],
             # ['中国人大网','npc.gov.cn'],
             # ['北京人大网','bjrd.gov.cn']
         ]
