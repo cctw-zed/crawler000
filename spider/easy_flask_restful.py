@@ -3,6 +3,10 @@ from flask_restful import reqparse, abort, Api, Resource
 from BaiduSpider import BaiduSpider
 from BeijingPeopleSpider import BeijingSpider
 from ChinaPeopleSpider import ChinaPeopleSpider
+from HuBeiPeopleSpider import HuBeiSpider
+from HunanPeopleSpider import HunanSpider
+from LiaoningPeopleSpider import LiaoNingPeopleSpider
+from XinhuaSpider import XinhuaSpider
 import threading
 
 # 做简单的Application初始化
@@ -23,14 +27,26 @@ class my_easy_class(Resource):
         baiduspider = BaiduSpider(keyword)
         beijingSpider = BeijingSpider(keyword)
         chinaSpider = ChinaPeopleSpider(keyword)
+        hubeiSpider = HuBeiSpider(keyword)
+        hunanSpider = HunanSpider(keyword)
+        liaoningSpider = LiaoNingPeopleSpider(keyword)
+        xinhuaSpider  = XinhuaSpider(keyword)
 
         thread_baidu = threading.Thread(target=baiduspider.run)
         thread_beijing = threading.Thread(target=beijingSpider.run)
         thread_china = threading.Thread(target=chinaSpider.run)
+        thread_hubei = threading.Thread(target=hubeiSpider.run)
+        thread_hunan = threading.Thread(target=hunanSpider.run)
+        thread_liaoning = threading.Thread(target=liaoningSpider.run)
+        thread_xinhua = threading.Thread(target=xinhuaSpider.run)
          
         thread_baidu.start()
         thread_beijing.start()
         thread_china.start()
+        thread_hubei.start()
+        thread_hunan.start()
+        thread_liaoning.start()
+        thread_xinhua.start()
 
         op = {'re': 'it\'s working'}
         return op
