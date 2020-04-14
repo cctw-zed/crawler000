@@ -48,7 +48,7 @@ class XinhuaSpider(object):
                 res['real_url'] = result['url']
                 res['abstract'] = result['des']
                 res['time'] = result['pubtime']
-                res['site'] = result['相关网站']
+                res['site'] = result['sitename']
                 res['keyword'] = self.keyword
                 if self.mybloom.isExist(res):
                     self.connection.insert(res)
