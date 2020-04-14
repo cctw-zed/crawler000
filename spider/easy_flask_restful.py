@@ -3,7 +3,7 @@ from flask_restful import reqparse, abort, Api, Resource
 from BaiduSpider import BaiduSpider
 from BeijingPeopleSpider import BeijingSpider
 from ChinaPeopleSpider import ChinaPeopleSpider
-from HuBeiPeopleSpider import HuBeiSpider
+from HubeiPeopleSpider import HubeiSpider
 from HunanPeopleSpider import HunanSpider
 from LiaoningPeopleSpider import LiaoNingPeopleSpider
 from XinhuaSpider import XinhuaSpider
@@ -27,7 +27,7 @@ class my_easy_class(Resource):
         baiduspider = BaiduSpider(keyword)
         beijingSpider = BeijingSpider(keyword)
         chinaSpider = ChinaPeopleSpider(keyword)
-        hubeiSpider = HuBeiSpider(keyword)
+        #hubeiSpider = HubeiSpider(keyword)
         hunanSpider = HunanSpider(keyword)
         liaoningSpider = LiaoNingPeopleSpider(keyword)
         xinhuaSpider  = XinhuaSpider(keyword)
@@ -35,7 +35,7 @@ class my_easy_class(Resource):
         thread_baidu = threading.Thread(target=baiduspider.run)
         thread_beijing = threading.Thread(target=beijingSpider.run)
         thread_china = threading.Thread(target=chinaSpider.run)
-        thread_hubei = threading.Thread(target=hubeiSpider.run)
+        #thread_hubei = threading.Thread(target=hubeiSpider.run)
         thread_hunan = threading.Thread(target=hunanSpider.run)
         thread_liaoning = threading.Thread(target=liaoningSpider.run)
         thread_xinhua = threading.Thread(target=xinhuaSpider.run)
@@ -43,7 +43,7 @@ class my_easy_class(Resource):
         thread_baidu.start()
         thread_beijing.start()
         thread_china.start()
-        thread_hubei.start()
+        #thread_hubei.start()
         thread_hunan.start()
         thread_liaoning.start()
         thread_xinhua.start()
