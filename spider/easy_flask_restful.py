@@ -25,7 +25,7 @@ class my_easy_class(Resource):
         chinaSpider = ChinaPeopleSpider(keyword)
 
         thread_baidu = threading.Thread(target=baiduspider.run)
-        thread_beijing = threading.Thread(target=baiduspider.run)
+        thread_beijing = threading.Thread(target=beijingSpider.run)
         thread_china = threading.Thread(target=chinaSpider.run)
          
         thread_baidu.start()

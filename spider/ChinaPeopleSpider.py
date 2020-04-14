@@ -2,7 +2,6 @@ from time import sleep
 from bs4 import BeautifulSoup
 from ConnectMongoDB import MyMongoDB
 import requests
-import urllib.request
 
 class ChinaPeopleSpider(object):
     def __init__(self, keyword, pageNum=3, pageSize=10):
