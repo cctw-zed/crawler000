@@ -2,7 +2,6 @@ from time import sleep
 from bs4 import BeautifulSoup
 from ConnectMongoDB import MyMongoDB
 import requests
-from MyBloom  import MyBloom
 
 class ChinaPeopleSpider(object):
     def __init__(self, keyword, pageNum=3, pageSize=10):
@@ -18,7 +17,6 @@ class ChinaPeopleSpider(object):
         self.pageNum = pageNum
         self.pageSize = pageSize
         self.connection = MyMongoDB()
-        self.mybloom = MyBloom()
 
     def getUrl(self,keyword,pageIndex):
         url = 'http://zs.kaipuyun.cn/s'
@@ -64,8 +62,7 @@ class ChinaPeopleSpider(object):
                 res['time'] = time
                 res['site'] = '中国人大网'
                 res['keyword'] = self.keyword
-                if self.mybloom.isExist(res):
-                    self.connection.insert(res)
+                self.connection.insert(res)
                 # print(res)
             except:
                 continue
