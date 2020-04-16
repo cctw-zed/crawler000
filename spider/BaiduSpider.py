@@ -23,6 +23,7 @@ class BaiduSpider(object):
             'Upgrade-Insecure-Requests': '1',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
         }
+        
         self.sitelist = [
             ['新华网', 'xinhuanet.com'],
             ['人民网', 'people.com.cn'],
