@@ -4,7 +4,6 @@ from ConnectMongoDB import MyMongoDB
 import requests
 import urllib.request
 import re
-from MyBloom  import MyBloom
 
 class ChongqingSpider(object):
     def __init__(self, keyword, pageNum=1, pageSize=10):
@@ -21,7 +20,6 @@ class ChongqingSpider(object):
         self.pageNum = pageNum
         self.pageSize = pageSize
         self.connection = MyMongoDB()
-        self.mybloom = MyBloom()
         
     
     def getPage(self, pageIndex):
@@ -51,8 +49,7 @@ class ChongqingSpider(object):
                 res['abstract'], res['time'] = self.getContent(hrefurl)
                 res['site'] = '重庆人大网'
                 res['keyword'] = self.keyword
-                if self.mybloom.isExist(res):
-                    self.connection.insert(res)
+                self.connection.insert(res)
             except:
                 continue
 
