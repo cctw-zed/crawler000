@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from ConnectMongoDB import MyMongoDB
 import requests
 import re
-from MyBloom  import MyBloom
+
 
 class BeijingSpider(object):
     def __init__(self, keyword, pageNum=3, pageSize=10):
@@ -20,7 +20,6 @@ class BeijingSpider(object):
         self.pageNum = pageNum
         self.pageSize = pageSize
         self.connection = MyMongoDB()
-        self.mybloom = MyBloom()
         
   
     def getPage(self, pageIndex):
@@ -67,8 +66,7 @@ class BeijingSpider(object):
                 res['time'] = date
                 res['site'] = '北京市人大网'
                 res['keyword'] = self.keyword
-                if self.mybloom.isExist(res):
-                    self.connection.insert(res)
+                self.connection.insert(res)
             except:
                 continue
     def run(self):

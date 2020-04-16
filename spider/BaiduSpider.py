@@ -3,12 +3,10 @@ from time import sleep
 from ConnectMongoDB import MyMongoDB
 import requests
 from bs4 import BeautifulSoup
-from MyBloom  import MyBloom
 
 class BaiduSpider(object):
 
     def __init__(self, keyword):
-        self.mybloom = MyBloom()
         self.keyword = keyword
         self.connection = MyMongoDB()
         self.headers = {
@@ -25,6 +23,7 @@ class BaiduSpider(object):
             'Upgrade-Insecure-Requests': '1',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
         }
+        
         self.sitelist = [
             # ['知乎', 'zhihu.com']
             # ['新华网', 'xinhuanet.com'],
@@ -67,9 +66,8 @@ class BaiduSpider(object):
                     res['keyword'] = keyword
                     res['site'] = site[0]
                     # 放进数据库
-                    if self.mybloom.isExist(res):
-                        self.connection.insert(res)
-                        reslist.append(res)
+                    self.connection.insert(res)
+                    reslist.append(res)
             except:
                 continue
         return reslist

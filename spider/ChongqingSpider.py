@@ -5,7 +5,7 @@ import requests
 import urllib.request
 import re
 
-class HunanSpider(object):
+class ChongqingSpider(object):
     def __init__(self, keyword, pageNum=1, pageSize=10):
         self.headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -13,7 +13,6 @@ class HunanSpider(object):
         'Accept-Language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7',
         'Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1',
-        'Host': 'www.hnrd.gov.cn',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
     }
 
@@ -24,12 +23,9 @@ class HunanSpider(object):
         
     
     def getPage(self, pageIndex):
-        url = 'http://www.hnrd.gov.cn/search.aspx'
+        url = 'http://www.ccpc.cq.cn/home/index/more/u/search/p/'+ str(pageIndex+1) + '.html'
         params = {
-           'chid':1,
-           'fieldname':'title',
-           'keyword':self.keyword,
-           'p':pageIndex,
+           'kwd':self.keyword,
         }
         response = requests.get(url, headers=self.headers, params=params)
         if(response.status_code ==200):
@@ -40,23 +36,20 @@ class HunanSpider(object):
     def parserPage(self,page):
         soup = BeautifulSoup(page,'lxml')
         # print(soup)
-        trs = soup.find_all('tr',  attrs={'height': '22px'})
-        for i in range(len(trs)):
+        tagas = soup.find('ul', attrs ={'class': 'news_list'}).find_all('a')
+        for i in range(len(tagas)):
             try:
-                tr = trs[i]
-                title = tr.find_all('a')[1].text
-                hrefurl = 'http://www.hnrd.gov.cn'+ tr.find_all('a')[1].get('href')
-                time = tr.find_all('td')[1].text
+                taga = tagas[i]
+                title = taga.text
+                hrefurl = 'http://www.ccpc.cq.cn/'+ taga.get('href')
                 res = {}
                 res['title'] = title
                 res['real_url'] = hrefurl
                 # res['abstract'] = self.getContent(hrefurl)
-                res['abstract'] = self.getContent(hrefurl)
-                res['time'] = time
-                res['site'] = '湖南人大网'
+                res['abstract'], res['time'] = self.getContent(hrefurl)
+                res['site'] = '重庆人大网'
                 res['keyword'] = self.keyword
                 self.connection.insert(res)
-                # print(res)
             except:
                 continue
 
@@ -66,16 +59,19 @@ class HunanSpider(object):
             if rep.status_code == 200:
                 try:
                     soup = BeautifulSoup(rep.text, 'lxml')
-                    text = soup.find('div', attrs={'id': 'content'}).text.encode(rep.encoding).decode('utf-8')
-                    text = re.sub('[[img].*[/img]]','',text)
-                    return text
+                    # print(soup)
+                    time = soup.find('div', attrs={'class': 'info'}).find('span').text.replace('时间：','').strip()
+                    text = soup.find('div', attrs={'class':'text'}).text
+                    # text = time
+                    # text = soup.find('div', attrs={'class':' text'}).text
+                    return text, time
                 except:
                     print('解析出错')
-                    return ''
+                    return '', ''
 
         except:
             print('出错了')
-            return ''
+            return '',''
 
 
     def run(self):
@@ -84,9 +80,9 @@ class HunanSpider(object):
             self.getPage(i+1)
 
 if __name__ == "__main__":
-    spider = HunanSpider('疫情')
+    spider = ChongqingSpider('疫情')
     spider.run()
-    # page = spider.getContent('http://www.hnrd.gov.cn/Info.aspx?ModelId=1&Id=31707')
+    # page,time  = spider.getContent('http://www.ccpc.cq.cn/home/index/more/id/219342.html')
     # print(page)
 
 

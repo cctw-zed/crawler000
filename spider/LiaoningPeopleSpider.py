@@ -2,7 +2,6 @@ from time import sleep
 import requests
 from ConnectMongoDB import MyMongoDB
 from bs4 import BeautifulSoup
-from MyBloom  import MyBloom
 
 
 class LiaoNingPeopleSpider(object):
@@ -21,8 +20,6 @@ class LiaoNingPeopleSpider(object):
         self.pageSize = pageSize
         self.connection = MyMongoDB()
         self.baseUrl = 'http://www.lnrd.gov.cn/'
-        self.mybloom = MyBloom()
-
 
 
     def getResponse(self, keyword, pageIndex):
@@ -56,8 +53,7 @@ class LiaoNingPeopleSpider(object):
                 res['time'] = li.find('div', attrs={'class': 'info'}).find('span').get_text()
                 res['site'] = '辽宁人大网'
                 res['keyword'] = self.keyword
-                if self.mybloom.isExist(res):
-                    self.connection.insert(res)
+                self.connection.insert(res)
                 # print(res)
             except:
                 continue

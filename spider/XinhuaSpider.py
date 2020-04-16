@@ -2,7 +2,6 @@ from time import sleep
 import requests
 from ConnectMongoDB import MyMongoDB
 import json
-from MyBloom  import MyBloom
 
 class XinhuaSpider(object):
 
@@ -18,7 +17,6 @@ class XinhuaSpider(object):
         self.pageSize = pageSize
         self.connection = MyMongoDB()
         self.baseUrl = 'http://so.news.cn/getNews'
-        self.mybloom = MyBloom()
 
     def getResponse(self, keyword, pageIndex):
         baseUrl = self.baseUrl
@@ -50,8 +48,7 @@ class XinhuaSpider(object):
                 res['time'] = result['pubtime']
                 res['site'] = result['sitename']
                 res['keyword'] = self.keyword
-                if self.mybloom.isExist(res):
-                    self.connection.insert(res)
+                self.connection.insert(res)
                 # print(res)
             except:
                 continue
