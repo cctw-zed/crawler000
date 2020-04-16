@@ -4,7 +4,6 @@ from ConnectMongoDB import MyMongoDB
 import requests
 import urllib.request
 import re
-from MyBloom  import MyBloom
 
 class JilinSpider(object):
     def __init__(self, keyword, pageNum=1, pageSize=10):
@@ -21,7 +20,6 @@ class JilinSpider(object):
         self.pageNum = pageNum
         self.pageSize = pageSize
         self.connection = MyMongoDB()
-        self.mybloom = MyBloom()
         
     
     def getPage(self, pageIndex):
@@ -61,8 +59,7 @@ class JilinSpider(object):
                 res['time'] = time
                 res['site'] = '吉林人大网'
                 res['keyword'] = self.keyword
-                if self.mybloom.isExist(res):
-                    self.connection.insert(res)
+                self.connection.insert(res)
                 # print(res)
             except:
                 print('吉林人大解析出错')
