@@ -27,6 +27,7 @@ class GuangxiSpider(object):
         response = requests.get(url,headers=self.headers)
         if response.status_code == 200:
             return response
+
     # 解析网页中包含的所有url
     def parse(self, response, unseen, seen):
         soup = BeautifulSoup(response.text, 'lxml')
@@ -58,7 +59,7 @@ class GuangxiSpider(object):
         res['real_url'] = url
         res['abstract'] = content
         # res['time'] = time
-        res['site'] = '辽宁人大网'
+        res['site'] = site
         return res
 
 if __name__ == '__main__':

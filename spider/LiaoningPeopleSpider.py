@@ -71,4 +71,3 @@ class LiaoNingPeopleSpider(object):
 if __name__ == "__main__":
     spider = LiaoNingPeopleSpider('疫情')
     spider.run()
-
