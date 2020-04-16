@@ -39,7 +39,8 @@ class my_easy_class(Resource):
         thread_hunan = threading.Thread(target=hunanSpider.run)
         thread_liaoning = threading.Thread(target=liaoningSpider.run)
         thread_xinhua = threading.Thread(target=xinhuaSpider.run)
-         
+        
+        
         thread_baidu.start()
         thread_beijing.start()
         thread_china.start()
