@@ -38,17 +38,20 @@ class Qinghai(object):
         # print(page)
     def parserPage(self,page):
         soup = BeautifulSoup(page, 'lxml')
-        print(soup)
+        # print(soup)
         list1 = soup.find_all('a', attrs={'class': 'lan14'},recursive=True)
-        print(list1)
-        list2 = soup.find_all('td', {'class': 'hei12'})
+        # print(list1)
+        list2 = soup.find_all('td', attrs= {'class': 'hei12'})
+        # print(list2)
         for index in range(len(list1)):
             try:
                 res = {}
-                res['title'] = list1[index].get_text()
-                res['real_url '] = list1[index]['href']
-                res['abstract'] = list2[2*index-1].get_text()
-                res['time'] = list2[2*index].get_text()
+                res['title'] = list1[index].text.strip()
+                res['real_url'] = list1[index].get('href')
+                res['abstract'] = list2[2*index].text.strip()
+                time= list2[2*index+1].text.strip()
+                time = time.split('\xa0\xa0\xa0')[1]
+                res['time'] = time
                 res['site'] = '青海人大网'
                 res['keyword'] = self.keyword
                 # self.connection.insert(res)
