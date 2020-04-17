@@ -2,7 +2,7 @@ import re
 import time
 from urllib.parse import urljoin
 
-import ConnectMongoDB
+# import ConnectMongoDB
 import requests
 from bs4 import BeautifulSoup
 
@@ -41,9 +41,11 @@ class GuangxiSpider(object):
                 page_urls.add(full_url)
             else:
                 unseen.add(full_url)
-        print(page_urls)
             # print(unseen)
         page_urls.update(page_urls - seen)
+        print('--------------')
+        print(page_urls)
+        print('--------------')
         unseen.update(unseen - seen)
         return page_urls
 
@@ -81,7 +83,7 @@ if __name__ == '__main__':
         for response in responses:
             try:
                 page_urls = Spider.parse(response, unseen, seen)
-                time.sleep(1)
+                # time.sleep(1)
                 # print(page_urls)
 
                 for url in page_urls:
@@ -90,7 +92,7 @@ if __name__ == '__main__':
                         time.sleep(1)
                         count += 1
                         print(count)
-                        print(time.time() - t1)
+                        # print(time.time() - t1)
                     except:
                         continue
             except:
