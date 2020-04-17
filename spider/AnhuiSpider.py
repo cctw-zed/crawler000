@@ -1,6 +1,6 @@
 from time import sleep
 from bs4 import BeautifulSoup
-from ConnectMongoDB import MyMongoDB
+# from ConnectMongoDB import MyMongoDB
 import requests
 import urllib.request
 import re
