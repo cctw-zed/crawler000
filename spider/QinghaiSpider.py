@@ -37,38 +37,29 @@ class Qinghai(object):
 
         # print(page)
     def parserPage(self,page):
-        soup = BeautifulSoup(page,'lxml')
-        contents = soup.find('ul',  attrs={'class': 'search-list'}).find_all('li')
-        # print(contents)
-        # for i in range(len(contents)):
-        #     try:
-        #         content = contents[i]
-        #         title = content.find('a').text.strip()
-
-        #         hrefurl = content.find('a').get('href')
-   
-        #         abstract = content.find('p').text.strip()
-            
-        #         time = content.find('span').text
-        
-
-        #         res = {}
-        #         res['title'] = title
-        #         res['real_url'] = hrefurl
-        #         # res['abstract'] = self.getContent(hrefurl)
-        #         res['abstract'] = abstract
-        #         res['time'] = time
-        #         res['site'] = '山西人大网'
-        #         res['keyword'] = self.keyword
-        #         # self.connection.insert(res)
-        #         print(res)
-        #     except:
-        #         continue
-
+        soup = BeautifulSoup(page, 'lxml')
+        print(soup)
+        list1 = soup.find_all('a', attrs={'class': 'lan14'},recursive=True)
+        print(list1)
+        list2 = soup.find_all('td', {'class': 'hei12'})
+        for index in range(len(list1)):
+            try:
+                res = {}
+                res['title'] = list1[index].get_text()
+                res['real_url '] = list1[index]['href']
+                res['abstract'] = list2[2*index-1].get_text()
+                res['time'] = list2[2*index].get_text()
+                res['site'] = '青海人大网'
+                res['keyword'] = self.keyword
+                # self.connection.insert(res)
+                print(res)
+            except:
+                continue
     def run(self):
         for i in range(self.pageNum):
             sleep(2)
             self.getPage(i+1)
+        
 if __name__ == "__main__":
     spider = Qinghai('疫情')
     spider.run()
@@ -76,4 +67,4 @@ if __name__ == "__main__":
     # print(page)
 
 
- 
+

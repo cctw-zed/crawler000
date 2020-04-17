@@ -25,12 +25,13 @@ class BaiduSpider(object):
         }
         
         self.sitelist = [
-            ['新华网', 'xinhuanet.com'],
-            ['人民网', 'people.com.cn'],
-            ['搜狐网', 'sohu.com'],
-            ['凤凰网', 'ifeng.com'],
-            ['新浪网', 'sina.com'],
-            ['腾讯网', 'qq.com'],
+            # ['知乎', 'zhihu.com']
+            # ['新华网', 'xinhuanet.com'],
+            # ['人民网', 'people.com.cn'],
+            # ['搜狐网', 'sohu.com'],
+            # ['凤凰网', 'ifeng.com'],
+            # ['新浪网', 'sina.com'],
+            # ['腾讯网', 'qq.com'],
             # ['中国人大网','npc.gov.cn'],
             # ['北京人大网','bjrd.gov.cn']
         ]
