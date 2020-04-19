@@ -62,9 +62,9 @@ class HeilongjiangSpider(object):
                 res['site'] = '山东人大网'
                 res['keyword'] = self.keyword
                 self.connection.insert(res)
-                print(res)
+                # print(res)
             except:
-                print('失败')
+                print('山东人大爬取失败')
 
     def parseResponse(self, response):
         # 此网站返回的是html
