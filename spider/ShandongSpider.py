@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 class HeilongjiangSpider(object):
 
-    def __init__(self, keyword, pageNum=3, pageSize=10):
+    def __init__(self, keyword, pageNum=1, pageSize=10):
         self.headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
             'Accept-Encoding': 'gzip, deflate',
@@ -43,6 +43,28 @@ class HeilongjiangSpider(object):
         else:
             print("山东请求失败")
 
+    def parsePage(self, urls):
+        for url in urls:
+            try:
+                response = requests.get(url, headers=self.headers)
+                response.encoding='utf-8'
+                soup = BeautifulSoup(response.text, 'lxml');
+                # print(soup)
+                title = soup.find('p', {'class': 'fs20 fcR fw'}).get_text()
+                time = soup.find('p', {'class': 'fs12'}).get_text()
+                abstract = soup.find('span', {'style': 'FONT-SIZE: 18px'}).get_text()
+
+                res = {}
+                res['title'] = title
+                res['real_url'] = url
+                res['abstract'] = abstract
+                res['time'] = time
+                res['site'] = '山东人大网'
+                res['keyword'] = self.keyword
+                self.connection.insert(res)
+                print(res)
+            except:
+                print('失败')
 
     def parseResponse(self, response):
         # 此网站返回的是html
@@ -52,10 +74,8 @@ class HeilongjiangSpider(object):
         urls = set()
         for a in list:
             urls.add(a['href'])
-        return urls
-
-    def parsePage(self, urls):
-        for url in urls:
+        print(urls)
+        self.parsePage(urls)
 
 
     def run(self):
