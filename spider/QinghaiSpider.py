@@ -49,7 +49,7 @@ class LiaoNingPeopleSpider(object):
         print(soup)
         list1 = soup.find_all('a', attrs={'class': 'lan14'},recursive=True)
         print(list1)
-        list2 = soup.find_all('td', {'class': 'hei12'})
+        list2 = soup.find_all('td', {'class': 'hei12'},recursive=True)
         for index in range(len(list1)):
             try:
                 res = {}
