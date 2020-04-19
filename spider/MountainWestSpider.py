@@ -5,7 +5,7 @@ import requests
 import urllib.request
 import re
 
-class Qinghai(object):
+class MountainWest(object):
     def __init__(self, keyword, pageNum=3, pageSize=10):
         self.headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -23,51 +23,62 @@ class Qinghai(object):
         
     
     def getPage(self, pageIndex):
-        url = 'http://www.qhrd.gov.cn/search/Default.aspx?q='+self.keyword+'&ie=utf-8&portalid=1&image.x=0&image.y=0'
+        url = 'http://www.sxpc.gov.cn/sxsrdsearch/search.jsp'
         params = {
-           '__EVENTTARGET': 'GridView1',
-           '__EVENTARGUMENT': 'Page$'+str(pageIndex),
-           'TextBox1': self.keyword,
-
+            'SType': 1,
+            'searchColumn': 'all',
+            'sword': self.keyword,
+            'page': pageIndex,
+            'order': 3,
+            'site': 5,
+            'StringEncoding': 'gb2312',
         }
-        response = requests.post(url, headers=self.headers)
+        response = requests.get(url, headers=self.headers, params=params)
         if(response.status_code ==200):
             page = response.text
             self.parserPage(page)
 
         # print(page)
     def parserPage(self,page):
-        soup = BeautifulSoup(page, 'lxml')
+        soup = BeautifulSoup(page,'lxml')
         # print(soup)
-        list1 = soup.find_all('a', attrs={'class': 'lan14'},recursive=True)
-        # print(list1)
-        list2 = soup.find_all('td', attrs= {'class': 'hei12'})
-        # print(list2)
-        for index in range(len(list1)):
+        contents = soup.find('ul',  attrs={'class': 'search-list'}).find_all('li')
+        print(contents)
+        for i in range(len(contents)):
             try:
+                content = contents[i]
+                title = content.find('a').text.strip()
+
+                hrefurl = content.find('a').get('href')
+   
+                abstract = content.find('p').text.strip()
+            
+                time = content.find('span').text
+        
+
                 res = {}
-                res['title'] = list1[index].text.strip()
-                res['real_url'] = list1[index].get('href')
-                res['abstract'] = list2[2*index].text.strip()
-                time= list2[2*index+1].text.strip()
-                time = time.split('\xa0\xa0\xa0')[1]
+                res['title'] = title
+                res['real_url'] = hrefurl
+                # res['abstract'] = self.getContent(hrefurl)
+                res['abstract'] = abstract
                 res['time'] = time
-                res['site'] = '青海人大网'
+                res['site'] = '山西人大网'
                 res['keyword'] = self.keyword
                 # self.connection.insert(res)
                 print(res)
             except:
                 continue
+
     def run(self):
         for i in range(self.pageNum):
             sleep(2)
             self.getPage(i+1)
-        
+
 if __name__ == "__main__":
-    spider = Qinghai('疫情')
+    spider = MountainWest('疫情')
     spider.run()
     # page = spider.getContent('http://www.hnrd.gov.cn/Info.aspx?ModelId=1&Id=31707')
     # print(page)
 
 
-
+ 
