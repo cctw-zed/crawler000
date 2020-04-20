@@ -4,7 +4,7 @@ from ConnectMongoDB import MyMongoDB
 from bs4 import BeautifulSoup
 
 
-class HeilongjiangSpider(object):
+class ShandongSpider(object):
 
     def __init__(self, keyword, pageNum=1, pageSize=10):
         self.headers = {
@@ -84,5 +84,5 @@ class HeilongjiangSpider(object):
             self.getResponse(self.keyword, i)
 
 if __name__ == "__main__":
-    spider = HeilongjiangSpider('疫情')
+    spider = ShandongSpider('疫情')
     spider.run()
