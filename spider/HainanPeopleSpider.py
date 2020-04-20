@@ -61,8 +61,8 @@ class HainanPeopleSpider(object):
             res['abstract'] = abstracts[i].get_text().strip()
             res['keyword'] = self.keyword
             res['site'] = '海南人大网'
-            # self.connection.insert(res)
-            print(res)
+            self.connection.insert(res)
+            #print(res)
 
     def run(self):
         for i in range(self.pageNum):
