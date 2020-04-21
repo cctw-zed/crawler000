@@ -28,7 +28,6 @@ class XinhuaSpider(object):
             'lang': 'cn',
         }
         response = requests.get(baseUrl, params=params, headers=self.headers)
-        print(response.status_code)
         if (response.status_code == 200):
             self.parseResponse(response)
 
@@ -58,7 +57,8 @@ class XinhuaSpider(object):
             sleep(2)
             self.getResponse(self.keyword, i)
 
+
 if __name__ == "__main__":
-    spider = XinhuaSpider('森林')
+    spider = XinhuaSpider('野生动物')
     spider.run()
 
