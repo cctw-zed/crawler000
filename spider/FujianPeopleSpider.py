@@ -49,8 +49,8 @@ class FujianPeopleSpider(object):
             res['abstract'] = self.get_content(real_url)
             res['keyword'] = self.keyword
             res['site'] = ' 福建人大网'
-            # self.connection.insert(res)
-            print(res)
+            self.connection.insert(res)
+            #print(res)
 
     def get_content(self, url):
         response = requests.get(url, headers=self.headers)

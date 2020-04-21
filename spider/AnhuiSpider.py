@@ -60,8 +60,8 @@ class AnhuiSpider(object):
                 res['time'] = time
                 res['site'] = '安徽人大网'
                 res['keyword'] = self.keyword
-                # self.connection.insert(res)
-                print(res)
+                self.connection.insert(res)
+                #print(res)
             except:
                 print('安徽人大解析出错')
                 continue
