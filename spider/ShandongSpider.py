@@ -4,7 +4,7 @@ from ConnectMongoDB import MyMongoDB
 from bs4 import BeautifulSoup
 
 
-class HeilongjiangSpider(object):
+class ShandongSpider(object):
 
     def __init__(self, keyword, pageNum=1, pageSize=10):
         self.headers = {
@@ -48,7 +48,7 @@ class HeilongjiangSpider(object):
             try:
                 response = requests.get(url, headers=self.headers)
                 response.encoding='utf-8'
-                soup = BeautifulSoup(response.text, 'lxml');
+                soup = BeautifulSoup(response.text, 'lxml')
                 # print(soup)
                 title = soup.find('p', {'class': 'fs20 fcR fw'}).get_text()
                 time = soup.find('p', {'class': 'fs12'}).get_text()
@@ -84,5 +84,5 @@ class HeilongjiangSpider(object):
             self.getResponse(self.keyword, i)
 
 if __name__ == "__main__":
-    spider = HeilongjiangSpider('疫情')
+    spider = ShandongSpider('疫情')
     spider.run()

@@ -1,10 +1,9 @@
 from time import sleep
 from bs4 import BeautifulSoup
-# from ConnectMongoDB import MyMongoDB
+from ConnectMongoDB import MyMongoDB
 import requests
 import urllib.request
 import re
-from MyBloom  import MyBloom
 
 class AnhuiSpider(object):
     def __init__(self, keyword, pageNum=4, pageSize=10):
@@ -22,7 +21,6 @@ class AnhuiSpider(object):
         self.pageNum = pageNum
         self.pageSize = pageSize
         self.connection = MyMongoDB()
-        self.mybloom = MyBloom()
         
     
     def getPage(self, pageIndex):
@@ -97,7 +95,7 @@ class AnhuiSpider(object):
             self.getPage(i+1)
 
 if __name__ == "__main__":
-    spider = AnhuiSpider('安徽')
+    spider = AnhuiSpider('野生动物')
     spider.run()
     # page,time  = spider.getContent('http://www.ccpc.cq.cn/home/index/more/id/219342.html')
     # print(page)
