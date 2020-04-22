@@ -76,8 +76,11 @@ if __name__ == '__main__':
 
         responses = []
         for url in unseen:
-            responses.append(Spider.crawl(url,seen))
-            time.sleep(1)
+            try:
+                responses.append(Spider.crawl(url,seen))
+                time.sleep(0.5)
+            except:
+                continue
 
         print('\nDistributed Parsing...')
         for response in responses:
@@ -89,7 +92,7 @@ if __name__ == '__main__':
                 for url in page_urls:
                     try:
                         print(Spider.artParse(Spider.crawl(url, seen), url))
-                        time.sleep(1)
+                        time.sleep(0.3)
                         count += 1
                         print(count)
                         # print(time.time() - t1)

@@ -18,7 +18,7 @@ class LiaoNingPeopleSpider(object):
         self.keyword = keyword
         self.pageNum = pageNum
         self.pageSize = pageSize
-        self.connection = MyMongoDB()
+        # self.connection = MyMongoDB()
         self.baseUrl = 'http://www.lnrd.gov.cn/'
 
 
@@ -48,13 +48,13 @@ class LiaoNingPeopleSpider(object):
                 # time =
                 res = {}
                 res['title'] = a['title']
-                res['real_url '] = self.baseUrl + a['href']
+                res['real_url'] = self.baseUrl + a['href']
                 res['abstract'] = li.find('p').get_text()
                 res['time'] = li.find('div', attrs={'class': 'info'}).find('span').get_text()
                 res['site'] = '辽宁人大网'
                 res['keyword'] = self.keyword
-                self.connection.insert(res)
-                # print(res)
+                # self.connection.insert(res)
+                print(res)
             except:
                 continue
 
