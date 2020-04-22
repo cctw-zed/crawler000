@@ -54,8 +54,8 @@ class Qinghai(object):
                 res['time'] = time
                 res['site'] = '青海人大网'
                 res['keyword'] = self.keyword
-                # self.connection.insert(res)
-                print(res)
+                self.connection.insert(res)
+                #print(res)
             except:
                 continue
     def run(self):

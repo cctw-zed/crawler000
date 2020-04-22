@@ -43,7 +43,6 @@ class MountainWest(object):
         soup = BeautifulSoup(page,'lxml')
         # print(soup)
         contents = soup.find('ul',  attrs={'class': 'search-list'}).find_all('li')
-        print(contents)
         for i in range(len(contents)):
             try:
                 content = contents[i]
@@ -64,8 +63,8 @@ class MountainWest(object):
                 res['time'] = time
                 res['site'] = '山西人大网'
                 res['keyword'] = self.keyword
-                # self.connection.insert(res)
-                print(res)
+                self.connection.insert(res)
+                #print(res)
             except:
                 continue
 
