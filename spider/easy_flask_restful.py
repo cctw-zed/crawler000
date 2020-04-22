@@ -18,6 +18,7 @@ from ShandongSpider import ShandongSpider
 from SichuanPeople import SichuanPeopleSpider
 from HainanPeopleSpider import HainanPeopleSpider
 from JiangxiPeopleSpider import JiangxiPeopleSpider
+from GuangxiPeopleSpider import GuangxiPeopleSpider
 
 import threading
 
@@ -54,6 +55,7 @@ class my_easy_class(Resource):
         sichuanSpider = SichuanPeopleSpider(keyword)
         hainanSpider = HainanPeopleSpider(keyword)
         jiangxiSpider = JiangxiPeopleSpider(keyword)
+        guangxiSpider = GuangxiPeopleSpider(keyword)
 
         thread_baidu = threading.Thread(target=baiduspider.run)
         thread_beijing = threading.Thread(target=beijingSpider.run)
@@ -73,6 +75,7 @@ class my_easy_class(Resource):
         thraed_sichuan = threading.Thread(target=sichuanSpider.run())
         thread_hainan = threading.Thread(target=hainanSpider.run())
         thread_jiangxi = threading.Thread(target=jiangxiSpider.run())
+        thraed_guangxi = threading.Thread(target=guangxiSpider.run())
 
         thread_baidu.start()
         thread_beijing.start()
@@ -92,6 +95,7 @@ class my_easy_class(Resource):
         thraed_sichuan.start()
         thread_hainan.start()
         thread_jiangxi.start()
+        thraed_guangxi.start()
 
         op = {'re': 'it\'s working'}
         return op
