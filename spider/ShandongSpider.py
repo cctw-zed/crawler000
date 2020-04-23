@@ -37,7 +37,7 @@ class ShandongSpider(object):
             'content': keyword
         }
         response = requests.get(baseUrl, params=params, headers=self.headers)
-        print(response.status_code)
+
         if (response.status_code == 200):
             self.parseResponse(response)
         else:
@@ -74,7 +74,6 @@ class ShandongSpider(object):
         urls = set()
         for a in list:
             urls.add(a['href'])
-        print(urls)
         self.parsePage(urls)
 
 

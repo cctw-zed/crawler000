@@ -44,7 +44,7 @@ class SinaSpider(object):
             'page': pageIndex,
         }
         response = requests.get(url, headers=self.headers, params=params)
-        print(response)
+
         if(response.status_code ==200):
             page = response.text
             self.parserPage(page)
@@ -56,7 +56,6 @@ class SinaSpider(object):
         result = soup.find('div', attrs={'id': 'result'})
         content_list = result.find_all('div',attrs={'class': 'box-result clearfix'})
 
-        print(result)
         for i in range(len(content_list)):
             try:
                 content = content_list[i]
@@ -69,8 +68,7 @@ class SinaSpider(object):
                 res['real_site'] = site_time[0]  #我加着玩的 用来
                 res['site'] = '新浪网'
                 res['keyword'] = self.keyword
-                # self.connection.insert(res)
-                print(res)
+                self.connection.insert(res)
             except:
                 continue
     def run(self):

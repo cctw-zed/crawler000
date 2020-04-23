@@ -41,7 +41,7 @@ class ChinaPeopleSpider(object):
             'left_right_index': 0,
         }
         response = requests.get(url,headers=self.headers, params=params)
-        print(response)
+        # print(response)
         if(response.status_code == 200):
             self.parserPage(response.text)
             

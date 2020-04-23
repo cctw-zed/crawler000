@@ -75,8 +75,7 @@ class JilinSpider(object):
                     time = soup.find('div', attrs={'class': 'info'}).find('span').text.replace('时间：','').strip()
                     text = soup.find('div', attrs={'class':'text'}).text
                     # text = time
-                    print(time)
-                    print(text)
+    
                     # text = soup.find('div', attrs={'class':' text'}).text
                     return text, time
                 except:

@@ -28,7 +28,6 @@ class XinhuaSpider(object):
             'lang': 'cn',
         }
         response = requests.get(baseUrl, params=params, headers=self.headers)
-        print(response.status_code)
         if (response.status_code == 200):
             self.parseResponse(response)
 

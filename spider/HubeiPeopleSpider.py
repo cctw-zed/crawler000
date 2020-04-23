@@ -27,12 +27,9 @@ class HubeiSpider(object):
             if rep.status_code == 200:
                 try:
                     soup = BeautifulSoup(rep.text, 'lxml')
-                    print(soup)
-                    print(rep.encoding)
-                    text = soup.find('div', attrs={'id': 'endtext'}).text.encode(rep.encoding).decode('utf-8')
+                    text = soup.find('div', attrs={'id': 'endtext'}).get_text().replace('\u201c','').replace('\u201d','').encode(rep.encoding).decode('utf-8')
                     return text
-                except:
-                    print('解析出错')
+                except Exception as e:
                     return ''
 
         except:
@@ -71,8 +68,8 @@ class HubeiSpider(object):
                 res['time'] = time
                 res['site'] = '湖北人大网'
                 res['keyword'] = self.keyword
-                self.connection.insert(res)
-                # print(res)
+                # self.connection.insert(res)
+                print(res)
             except:
                 continue
     def run(self):
@@ -81,10 +78,10 @@ class HubeiSpider(object):
             self.getPage(i)
 
 if __name__ == "__main__":
-    spider = HubeiSpider('大火')
-    # spider.run()
-    page = spider.getContent('http://www.hppc.gov.cn/2020/0413/33001.html')
-    print(page)
+    spider = HubeiSpider('疫情')
+    spider.run()
+    # page = spider.getContent('http://www.hppc.gov.cn/2020/0413/33001.html')
+    # print(page)
 
 
  
