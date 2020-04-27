@@ -23,11 +23,13 @@ class ConOfAllData:
             return False
 
     def insert(self, content):
-        self.insert_content.append(content)
+        if content['real_url'] is not None and content['title'] is not None and content['abstract'] is not None:
+            self.insert_content.append(content)
 
     def end(self):
         if len(self.insert_url) != 0:
             self.col_url.insert_many(self.insert_url)
+        if len(self.insert_content) != 0:
             self.col_content.insert_many(self.insert_content)
 
 
