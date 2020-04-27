@@ -25,7 +25,7 @@ class BaiduSpider(object):
         }
         
         self.sitelist = [
-            ['知乎', 'zhihu.com']
+            ['知乎', 'zhihu.com'],
             # ['新华网', 'xinhuanet.com'],
             ['人民网', 'people.com.cn'],
             ['搜狐网', 'sohu.com'],

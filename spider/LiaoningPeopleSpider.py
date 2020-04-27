@@ -52,9 +52,9 @@ class LiaoNingPeopleSpider(object):
                 res['time'] = li.find('div', attrs={'class': 'info'}).find('span').get_text()
                 res['site'] = '辽宁人大网'
                 res['keyword'] = self.keyword
-                # self.connection.insert(res)
+                self.connection.insert(res)
                 #self.connection.insert(res)
-                print(res)
+                #print(res)
             except:
                 continue
 
