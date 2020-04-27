@@ -29,9 +29,7 @@ class HeilongjiangSpider(object):
             'keywords': keyword,
             'page': pageIndex,
         }
-        print('begin')
         response = requests.get(baseUrl, params=params, headers=self.headers)
-        print(response)
         # print(response.status_code)
         if (response.status_code == 200):
             self.parseResponse(response)
