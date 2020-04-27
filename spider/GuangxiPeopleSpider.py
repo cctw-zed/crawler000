@@ -63,7 +63,10 @@ class GuangxiPeopleSpider(object):
     def run(self):
         for i in range(self.pageNum):
             sleep(0.5)
-            self.getResponse(self.keyword, i)
+            try:
+                self.getResponse(self.keyword, i)
+            except:
+                continue
 
 if __name__ == "__main__":
     spider = GuangxiPeopleSpider('疫情')
