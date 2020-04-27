@@ -62,9 +62,9 @@ class GuangxiPeopleSpider(object):
 
     def run(self):
         for i in range(self.pageNum):
-            sleep(2)
+            sleep(0.5)
             self.getResponse(self.keyword, i)
 
 if __name__ == "__main__":
-    spider = LiaoNingPeopleSpider('疫情')
+    spider = GuangxiPeopleSpider('疫情')
     spider.run()

@@ -29,7 +29,7 @@ class HeilongjiangSpider(object):
             'keywords': keyword,
             'page': pageIndex,
         }
-        print('begin')
+        # print('begin')
         response = requests.get(baseUrl, params=params, headers=self.headers)
         print(response)
         # print(response.status_code)
@@ -58,7 +58,7 @@ class HeilongjiangSpider(object):
                 res['site'] = '黑龙江人大网'
                 res['keyword'] = self.keyword
                 self.connection.insert(res)
-                print(res)
+                # print(res)
             except:
                 continue
 
