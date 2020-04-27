@@ -5,7 +5,7 @@ import requests
 import urllib.request
 import re
 
-class MountainWestSpider(object):
+class ShanghaiSpider(object):
     def __init__(self, keyword, pageNum=3, pageSize=10):
         self.headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -23,49 +23,47 @@ class MountainWestSpider(object):
         
     
     def getPage(self, pageIndex):
-        url = 'http://www.sxpc.gov.cn/sxsrdsearch/search.jsp'
+        url = 'http://searchgov1.eastday.com/searchspscs/search.ashx'
         params = {
-            'SType': 1,
-            'searchColumn': 'all',
-            'sword': self.keyword,
+            'q': self.keyword.encode('GBK'),
             'page': pageIndex,
-            'order': 3,
-            'site': 5,
-            'StringEncoding': 'gb2312',
+            'stype': 2,
+            'sort': 2,
+            'mp': 41,
         }
-        response = requests.get(url, headers=self.headers, params=params)
-        if(response.status_code ==200):
-            page = response.text
-            self.parserPage(page)
-
+        try:
+            response = requests.get(url, headers=self.headers, params=params)
+            if(response.status_code ==200):
+                page = response.text
+                self.parserPage(page)
+        except:
+            pass
         # print(page)
     def parserPage(self,page):
         soup = BeautifulSoup(page,'lxml')
-        # print(soup)
-        contents = soup.find('ul',  attrs={'class': 'search-list'}).find_all('li')
-        for i in range(len(contents)):
+        items = soup.find_all('div', attrs={'class':'resultItem'})
+        for i in range(len(items)):
             try:
-                content = contents[i]
-                title = content.find('a').text.strip()
+                item = items[i]
+                title_and_url= item.find('a')
+                title = title_and_url.get_text()
+                hrefurl = title_and_url.get('href')
 
-                hrefurl = content.find('a').get('href')
-   
-                abstract = content.find('p').text.strip()
-            
-                time = content.find('span').text
-        
-
+                time = item.find('font').get_text().split(' ')[1]
+                content = item.find('div').get_text()
+    
                 res = {}
                 res['title'] = title
                 res['real_url'] = hrefurl
                 # res['abstract'] = self.getContent(hrefurl)
-                res['abstract'] = abstract
+                res['abstract'] = content
                 res['time'] = time
-                res['site'] = '山西人大网'
+                res['site'] = '上海人大网'
                 res['keyword'] = self.keyword
-                self.connection.insert(res)
-                #print(res)
+                # self.connection.insert(res)
+                print(res)
             except:
+                print('上海人大解析出错')
                 continue
 
     def run(self):
@@ -74,9 +72,9 @@ class MountainWestSpider(object):
             self.getPage(i+1)
 
 if __name__ == "__main__":
-    spider = MountainWestSpider('疫情')
+    spider = ShanghaiSpider('疫情')
     spider.run()
-    # page = spider.getContent('http://www.hnrd.gov.cn/Info.aspx?ModelId=1&Id=31707')
+    # page,time  = spider.getContent('http://www.ccpc.cq.cn/home/index/more/id/219342.html')
     # print(page)
 
 

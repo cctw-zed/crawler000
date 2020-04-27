@@ -37,7 +37,7 @@ class ShandongSpider(object):
             'content': keyword
         }
         response = requests.get(baseUrl, params=params, headers=self.headers)
-        print(response.status_code)
+
         if (response.status_code == 200):
             self.parseResponse(response)
         else:
@@ -48,7 +48,7 @@ class ShandongSpider(object):
             try:
                 response = requests.get(url, headers=self.headers)
                 response.encoding='utf-8'
-                soup = BeautifulSoup(response.text, 'lxml');
+                soup = BeautifulSoup(response.text, 'lxml')
                 # print(soup)
                 title = soup.find('p', {'class': 'fs20 fcR fw'}).get_text()
                 time = soup.find('p', {'class': 'fs12'}).get_text()

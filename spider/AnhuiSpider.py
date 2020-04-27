@@ -4,7 +4,6 @@ from ConnectMongoDB import MyMongoDB
 import requests
 import urllib.request
 import re
-from MyBloom  import MyBloom
 
 class AnhuiSpider(object):
     def __init__(self, keyword, pageNum=4, pageSize=10):
@@ -22,7 +21,6 @@ class AnhuiSpider(object):
         self.pageNum = pageNum
         self.pageSize = pageSize
         self.connection = MyMongoDB()
-        self.mybloom = MyBloom()
         
     
     def getPage(self, pageIndex):
@@ -36,11 +34,13 @@ class AnhuiSpider(object):
             'strSearchContent': self.keyword.encode('GBK'),
             'PageSizeIndex': pageIndex,
         }
-        response = requests.post(url, headers=self.headers, data=params)
-        if(response.status_code ==200):
-            page = response.text
-            self.parserPage(page)
-
+        try:
+            response = requests.post(url, headers=self.headers, data=params)
+            if(response.status_code ==200):
+                page = response.text
+                self.parserPage(page)
+        except:
+            pass
         # print(page)
     def parserPage(self,page):
         soup = BeautifulSoup(page,'lxml')
@@ -62,8 +62,8 @@ class AnhuiSpider(object):
                 res['time'] = time
                 res['site'] = '安徽人大网'
                 res['keyword'] = self.keyword
-                self.connection.insert(res)
-                #print(res)
+                # self.connection.insert(res)
+                print(res)
             except:
                 print('安徽人大解析出错')
                 continue
@@ -78,8 +78,6 @@ class AnhuiSpider(object):
                     time = soup.find('div', attrs={'class': 'info'}).find('span').text.replace('时间：','').strip()
                     text = soup.find('div', attrs={'class':'text'}).text
                     # text = time
-                    print(time)
-                    print(text)
                     # text = soup.find('div', attrs={'class':' text'}).text
                     return text, time
                 except:
@@ -97,7 +95,7 @@ class AnhuiSpider(object):
             self.getPage(i+1)
 
 if __name__ == "__main__":
-    spider = AnhuiSpider('安徽')
+    spider = AnhuiSpider('野生动物')
     spider.run()
     # page,time  = spider.getContent('http://www.ccpc.cq.cn/home/index/more/id/219342.html')
     # print(page)

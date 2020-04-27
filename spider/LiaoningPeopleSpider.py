@@ -29,7 +29,6 @@ class LiaoNingPeopleSpider(object):
             'page': self.pageNum,
         }
         response = requests.get(baseUrl, params=params, headers=self.headers)
-        print(response.status_code)
         if (response.status_code == 200):
             self.parseResponse(response)
 
