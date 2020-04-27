@@ -11,7 +11,7 @@ class MyMongoDB(object):
         self.mybloom = MyBloom()
     # 插入一条结果
     def insert(self, res):
-        if res['real_url'] != "" and res['title'] != "" and res['abstract'] !="":
+        if res['real_url'] is not None and res['title'] is not None and res['abstract'] is not None:
             if self.mybloom.isExist(res['title']):
                 self.dbCollection.insert_one(res)
     # 在working表中删除关键词

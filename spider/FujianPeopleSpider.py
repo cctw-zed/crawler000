@@ -39,7 +39,6 @@ class FujianPeopleSpider(object):
     def parserPage(self, page):
         soup = BeautifulSoup(page, 'lxml')
         pagelist = soup.find('div', attrs={'class': 'list_segj'}).findAll('li')
-        print(len(pagelist))
         for item in pagelist:
             res = {}
             res["title"] = item.find('a').get('title')
@@ -48,7 +47,7 @@ class FujianPeopleSpider(object):
             res['time'] = item.find('span').get_text()
             res['abstract'] = self.get_content(real_url)
             res['keyword'] = self.keyword
-            res['site'] = ' 福建人大网'
+            res['site'] = '福建人大网'
             self.connection.insert(res)
             #print(res)
 

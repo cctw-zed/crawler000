@@ -57,7 +57,8 @@ class XinhuaSpider(object):
             sleep(2)
             self.getResponse(self.keyword, i)
 
+
 if __name__ == "__main__":
-    spider = XinhuaSpider('森林')
+    spider = XinhuaSpider('野生动物')
     spider.run()
 

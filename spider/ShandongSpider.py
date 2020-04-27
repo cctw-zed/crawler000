@@ -74,6 +74,7 @@ class ShandongSpider(object):
         urls = set()
         for a in list:
             urls.add(a['href'])
+        # print(urls)
         self.parsePage(urls)
 
 
