@@ -68,8 +68,8 @@ class HubeiSpider(object):
                 res['time'] = time
                 res['site'] = '湖北人大网'
                 res['keyword'] = self.keyword
-                # self.connection.insert(res)
-                print(res)
+                self.connection.insert(res)
+                #print(res)
             except:
                 continue
     def run(self):

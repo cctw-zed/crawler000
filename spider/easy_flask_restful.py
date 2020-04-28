@@ -19,6 +19,7 @@ from SichuanPeople import SichuanPeopleSpider
 from HainanPeopleSpider import HainanPeopleSpider
 from JiangxiPeopleSpider import JiangxiPeopleSpider
 from GuangxiPeopleSpider import GuangxiPeopleSpider
+from NingxiaPeopleSpider import NingxiaPeopleSpider
 
 import threading
 
@@ -40,14 +41,14 @@ class my_easy_class(Resource):
         baiduspider = BaiduSpider(keyword)
         beijingSpider = BeijingSpider(keyword)
         chinaSpider = ChinaPeopleSpider(keyword)
-        #hubeiSpider = HubeiSpider(keyword)
+        hubeiSpider = HubeiSpider(keyword)
         hunanSpider = HunanSpider(keyword)
         liaoningSpider = LiaoNingPeopleSpider(keyword)
         xinhuaSpider  = XinhuaSpider(keyword)
-        #anhuiSpider = AnhuiSpider(keyword)
+        anhuiSpider = AnhuiSpider(keyword)
         chongqingSpider = ChongqingSpider(keyword)
         fujianSpider = FujianPeopleSpider(keyword)
-        #heilongjiangSpider = HeilongjiangSpider(keyword)
+        heilongjiangSpider = HeilongjiangSpider(keyword)
         jilinSpider = JilinSpider(keyword)
         mountainWestSpider = MountainWestSpider(keyword)
         qinghaiSpider = Qinghai(keyword)
@@ -56,18 +57,19 @@ class my_easy_class(Resource):
         hainanSpider = HainanPeopleSpider(keyword)
         jiangxiSpider = JiangxiPeopleSpider(keyword)
         guangxiSpider = GuangxiPeopleSpider(keyword)
+        ningxiaSpider = NingxiaPeopleSpider(keyword)
 
         thread_baidu = threading.Thread(target=baiduspider.run)
         thread_beijing = threading.Thread(target=beijingSpider.run)
         thread_china = threading.Thread(target=chinaSpider.run)
-        #thread_hubei = threading.Thread(target=hubeiSpider.run)
+        thread_hubei = threading.Thread(target=hubeiSpider.run)
         thread_hunan = threading.Thread(target=hunanSpider.run)
         thread_liaoning = threading.Thread(target=liaoningSpider.run)
         thread_xinhua = threading.Thread(target=xinhuaSpider.run)
-        #thread_anhui = threading.Thread(target=anhuiSpider.run())
+        thread_anhui = threading.Thread(target=anhuiSpider.run())
         thread_chongqing = threading.Thread(target=chongqingSpider.run())
         thread_fujian = threading.Thread(target=fujianSpider.run())
-        #thread_heilongjiang = threading.Thread(target=heilongjiangSpider.run())
+        thread_heilongjiang = threading.Thread(target=heilongjiangSpider.run())
         thread_jilin = threading.Thread(target=jilinSpider.run())
         thread_mountain = threading.Thread(target=mountainWestSpider.run())
         thread_qinghai = threading.Thread(target=qinghaiSpider.run())
@@ -76,18 +78,19 @@ class my_easy_class(Resource):
         thread_hainan = threading.Thread(target=hainanSpider.run())
         thread_jiangxi = threading.Thread(target=jiangxiSpider.run())
         thraed_guangxi = threading.Thread(target=guangxiSpider.run())
+        thread_ningxia = threading.Thread(target=ningxiaSpider.run())
 
         thread_baidu.start()
         thread_beijing.start()
         thread_china.start()
-        #thread_hubei.start()
+        thread_hubei.start()
         thread_hunan.start()
         thread_liaoning.start()
         thread_xinhua.start()
-        #thread_anhui.start()
+        thread_anhui.start()
         thread_chongqing.start()
         thread_fujian.start()
-        #thread_heilongjiang.start()
+        thread_heilongjiang.start()
         thread_jilin.start()
         thread_mountain.start()
         thread_qinghai.start()
@@ -96,6 +99,7 @@ class my_easy_class(Resource):
         thread_hainan.start()
         thread_jiangxi.start()
         thraed_guangxi.start()
+        thread_ningxia.start()
 
         op = {'re': 'it\'s working'}
         return op
