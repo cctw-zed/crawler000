@@ -12,7 +12,7 @@ from ChongqingSpider import ChongqingSpider
 from FujianPeopleSpider import FujianPeopleSpider
 from HeilongjiangSpider import HeilongjiangSpider
 from JilinPeopleSpider import JilinSpider
-from MountainWestSpider import MountainWest
+from MountainWestSpider import MountainWestSpider
 from QinghaiSpider import Qinghai
 from ShandongSpider import ShandongSpider
 from SichuanPeople import SichuanPeopleSpider
@@ -49,7 +49,7 @@ class my_easy_class(Resource):
         fujianSpider = FujianPeopleSpider(keyword)
         #heilongjiangSpider = HeilongjiangSpider(keyword)
         jilinSpider = JilinSpider(keyword)
-        mountainWestSpider = MountainWest(keyword)
+        mountainWestSpider = MountainWestSpider(keyword)
         qinghaiSpider = Qinghai(keyword)
         shandongSpider = ShandongSpider(keyword)
         sichuanSpider = SichuanPeopleSpider(keyword)
