@@ -1,6 +1,6 @@
+from ConOfAllData import ConOfAllData
 from time import sleep
 from bs4 import BeautifulSoup
-from ConnectMongoDB import MyMongoDB
 import requests
 import urllib.request
 import time
@@ -19,50 +19,64 @@ class GuangdongSpider(object):
     }
 
         self.base_url = 'http://www.rd.gd.cn/'
-        self.seen = set()
-        self.unseen = set([self.base_url, ])
-        self.connection = MyMongoDB()
-        
+        self.connection = ConOfAllData('guangdong')
+
+        self.start_list = [
+            'http://www.rd.gd.cn/pub/gdrd2012/rdgz/lfjj/',
+            'http://www.rd.gd.cn/pub/gdrd2012/rdgz/jdsd',
+            'http://www.rd.gd.cn/pub/gdrd2012/rdhy/jyjd/',
+            'http://www.rd.gd.cn/pub/gdrd2012/rdhy/rsrm/',
+            'http://www.rd.gd.cn/pub/gdrd2012/dbgz/',
+            'http://www.rd.gd.cn/pub/gdrd2012/xxgk/',
+            'http://www.rd.gd.cn/pub/gdrd2012/zsjs/',
+            'http://www.rd.gd.cn/pub/gdrd2012/gzjl/dwjw/',
+            'http://www.rd.gd.cn/pub/gdrd2012/rdgz/gsrd/',
+            'http://www.rd.gd.cn/pub/gdrd2012/yfzs/fzxc/',
+            'http://www.rd.gd.cn/pub/gdrd2012/rdyj/rdlt/',
+            'http://www.rd.gd.cn/pub/gdrd2012/xwsc/rdxw/',
+            'http://www.rd.gd.cn/pub/gdrd2012/xwzc/tpxw/',
+        ]
     # 抓取url得到response
     def crawl(self, url):
+        time.sleep(1)
         # s = requests.session
-        self.seen.add(url)
-        self.unseen = self.unseen - self.seen
         try:
-            response = requests.get(url,headers=self.headers)
+            session = requests.session()
+            response = session.get(url,headers=self.headers)
             if response.status_code == 200:
+                session.close()
                 return response
         except:
+            session.close()
             return False
-    # 解析网页中包含的所有url
-    def parse(self, response):
 
-        soup = BeautifulSoup(response.text, 'lxml')
-        # print(soup)
-        urls = soup.find_all('a')
-        page_urls = set()
-        for url in urls:
-            # title = url.get_text()
-            url = url.get('href')
-            print(url)
-            full_url = urljoin(self.base_url, url)
-            if 'html' in full_url:
-                page_urls.add(full_url)
-            else:
-                self.unseen.add(full_url)
-            # print(unseen)
-        page_urls = page_urls - self.seen
-        self.unseen = self.unseen - self.seen
-        print('page_urls\n',page_urls)
-        print('unseen\n',self.unseen)
-        return page_urls
+    # 解析栏目中的链接
+    def parse(self, response,url):
+        try:
+            response.encoding = 'GBK'
+            soup = BeautifulSoup(response.text)
+            uls = soup.find_all('ul',attrs={'class': 'GsTL1 nesadd'})
+            if len(uls)==0:
+                uls = soup.find_all('ul', attrs={'class':'GsTL1'})
+            for ul in uls:
+                tagas = ul.find_all('a')
+                for taga in tagas:
+                    try:
+                        nowurl = urljoin(url,taga.get('href'))
+                        if self.connection.isexist(nowurl)==False:
+                            rep = self.crawl(nowurl)
+                            self.aimPageParse(rep,nowurl)
+                    except:
+                        continue
+        except:
+            print('解析栏目链接出错')
+            pass
 
 
     def aimPageParse(self,rep, url):
         # print(contents_list)
         try:
-            print('开始解析目标页面了')
-            print(rep.encoding)
+            print('开始解析目标页面了\n')
             rep.encoding = 'GBK'
             soup = BeautifulSoup(rep.text,'lxml')
             contents = soup.find('div', attrs={'class':'GtDetail'})
@@ -78,49 +92,36 @@ class GuangdongSpider(object):
             res['abstract'] = content
             res['time'] = time
             res['site'] = '广东人大网'
-            # self.connection.insert(res)
+            self.connection.insert(res)
             print(res)
         except:
             print('广东人大解析出错')
             pass
     
     def run(self):
-
-        count, t1 = 1, time.time()
-
-        while len(self.unseen) != 0:
-            print('\nDistributed Crawling...')
-            responses = []
-            for url in self.unseen:
-                responses.append(self.crawl(url))
-                time.sleep(2)
-
-            print('\nDistributed Parsing...')
-            print(responses)
-            print(self.unseen)
-            for response in responses:
-                try:
-                    print('enter')
-                    page_urls = self.parse(response)
-                    for url in page_urls:
-                        try:
-                            rep = self.crawl(url)
-                            if rep == False:
-                                self.aimPageParse(rep, url)
-                                time.sleep(2)
-                                count += 1
-                                print(count)                        
-                            # print(time.time() - t1)
-                        except:
-                            continue
-                except:
-                    continue
-
-        print('Total time: %.1f s' % (time.time() - t1,))  # 53 s
+        for item_url in self.start_list:
+            try:
+                for i in range(10):
+                    if i==0:
+                        url = urljoin(item_url, 'index.html')
+                    else:
+                        url = urljoin(item_url,'index_'+str(i)+'.html')
+                    try:
+                        rep = self.crawl(url)
+                        if rep!=False and rep!=None:
+                            self.parse(rep,url)
+                    except:
+                        continue
+            except:
+                continue
+        self.connection.end()
+        
 
 if __name__ == "__main__":
     Spider = GuangdongSpider()
     Spider.run()
+    # rep = Spider.crawl('http://www.rd.gd.cn/pub/gdrd2012/rdzs/index.html')
+    # Spider.parse(rep,'http://www.rd.gd.cn/pub/gdrd2012/rdzs/index.html')
 
 
 
