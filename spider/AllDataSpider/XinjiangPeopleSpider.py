@@ -1,6 +1,5 @@
 from time import sleep
 from bs4 import BeautifulSoup
-from ConnectMongoDB import MyMongoDB
 import requests
 import re
 from ConOfAllData import ConOfAllData

@@ -5,7 +5,6 @@
 from time import sleep
 from ToDataBase import ToDataBase
 import requests
-from ConnectMongoDB import MyMongoDB
 from bs4 import BeautifulSoup
 
 class ZheJiangSpider(object):
