@@ -3,9 +3,8 @@
 2. 对于每类页面，遍历
 '''
 from time import sleep
-from ToDataBase import ToDataBase
+from ConOfAllData import ConOfAllData
 import requests
-from ConnectMongoDB import MyMongoDB
 from bs4 import BeautifulSoup
 
 class YunNanSpider(object):
@@ -18,8 +17,7 @@ class YunNanSpider(object):
             'Connection': 'keep-alive',
             'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) Gecko/20100101 Firefox/72.0'
         }
-        # self.connection = MyMongoDB()
-        # self.ToDataBase("云南人大网")
+        self.ConOfAllData("yunnan")
         self.baseUrl = 'http://www.srd.yn.gov.cn/'
         self.urlList = {
             'rdyw/',
@@ -39,7 +37,7 @@ class YunNanSpider(object):
         # 对于列表中的所有url
         for url in self.urlList:
             fullUrl = self.baseUrl + url
-            print(fullUrl)
+            # print(fullUrl)
             # pages存放所有存放文章列表的页面
             pages = []
             firstPage = requests.get(fullUrl,headers=self.headers)
@@ -52,13 +50,13 @@ class YunNanSpider(object):
                 sleep(0.3)
                 tail = 'index_' + str(index) + '.html'
                 page = requests.get(fullUrl + tail)
-                print(page)
+                # print(page)
                 if page.status_code == 200:
                     pages.append(page)
                     index += 1
                 else:
                     break;
-            print('-----')
+            # print('-----')
             self.parseResponse(pages,fullUrl)
 
     def parseResponse(self, pages, fullUrl):
@@ -70,27 +68,31 @@ class YunNanSpider(object):
             for li in lis:
                 sleep(0.3)
                 a = li.find('a')
-                articleUrl = self.baseUrl + a['href'][2:]
-                # if not self.ToDataBase.Isexist(articleUrl):
-                res = {}
-                res['title'] = a.get_text()
-                res['real_url'] = articleUrl
-                res['abstract'] = res['title']
-                res['time'] = li.find('span').get_text()
-                res['site'] = '云南人大网'
-                print(res)
-                    # self.ToDataBase.Insert(res)
+                articleUrl = fullUrl + a['href'][2:]
+                if not self.ConOfAllData.Isexist(articleUrl):
+                    res = {}
+                    res['title'] = a.get_text()
+                    res['real_url'] = articleUrl
+                    res['abstract'] = self.parseArt(articleUrl)
+                    res['time'] = li.find('span').get_text()
+                    res['site'] = '云南人大网'
+                    # print(res)
+                    self.ConOfAllData.Insert(res)
 
-    # def parseArt(self, articleUrl):
-    #     response = requests.get(articleUrl,headers=self.headers)
-    #     soup = BeautifulSoup(response.text, 'lxml')
-    #     div = soup.find('div', attrs={'class':'TRS_Editor'})
-    #     p = div.find('p')
-    #     return p.get_text()
+    def parseArt(self, articleUrl):
+        response = requests.get(articleUrl,headers=self.headers)
+        response.encoding = "utf-8"
+        soup = BeautifulSoup(response.text, 'lxml')
+        try:
+            div = soup.find('div', attrs={'class':'TRS_Editor'})
+            p = div.find('p')
+            return p.get_text()
+        except:
+            return ""
 
     def run(self):
         self.getResponse()
-        # self.ToDataBase.End()
+        self.ToDataBase.End()
 
 if __name__ == "__main__":
     spider = YunNanSpider()
