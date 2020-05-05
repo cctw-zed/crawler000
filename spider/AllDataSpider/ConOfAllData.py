@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from pybloom_live import ScalableBloomFilter
 
 
-class ConOfAllData:
+class ConOfAllData(object):
     def __init__(self, site_name):
         self.client = MongoClient('localhost', 27017)
         self.db = self.client.crawlSpider
