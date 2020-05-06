@@ -72,7 +72,7 @@ class NeimengPeopleSpider(object):
                 if re.match(r'\.\./(.*?)html', r):
                     r = r[3:]
                     articleUrl = self.baseUrl + r
-                if not self.ConOfAllData.Isexist(articleUrl):
+                if not self.ConOfAllData.isexist(articleUrl):
                     # 注释部分用来按时间筛选
                     # time_stamp_1 = time.mktime(time.strptime('2019-01-01', '%Y-%m-%d'))
                     createdtime = li.find('span').get_text()
@@ -89,7 +89,7 @@ class NeimengPeopleSpider(object):
                     res['time'] = createdtime
                     res['site'] = '内蒙古人大网'
                     print(res)
-                    self.ConOfAllData.Insert(res)
+                    self.ConOfAllData.insert(res)
 
     def parseArt(self, articleUrl):
         try:
@@ -109,7 +109,7 @@ class NeimengPeopleSpider(object):
 
     def run(self):
         self.getResponse(self.urlList_rightbox)
-        self.ConOfAllData.End()
+        self.ConOfAllData.end()
 
 if __name__ == "__main__":
     spider = NeimengPeopleSpider()

@@ -69,7 +69,7 @@ class YunNanSpider(object):
                 sleep(0.3)
                 a = li.find('a')
                 articleUrl = fullUrl + a['href'][2:]
-                if not self.ConOfAllData.Isexist(articleUrl):
+                if not self.ConOfAllData.isexist(articleUrl):
                     res = {}
                     res['title'] = a.get_text()
                     res['real_url'] = articleUrl
@@ -77,7 +77,7 @@ class YunNanSpider(object):
                     res['time'] = li.find('span').get_text()
                     res['site'] = '云南人大网'
                     # print(res)
-                    self.ConOfAllData.Insert(res)
+                    self.ConOfAllData.insert(res)
 
     def parseArt(self, articleUrl):
         response = requests.get(articleUrl,headers=self.headers)
@@ -92,7 +92,7 @@ class YunNanSpider(object):
 
     def run(self):
         self.getResponse()
-        self.ToDataBase.End()
+        self.ConOfAllData.end()
 
 if __name__ == "__main__":
     spider = YunNanSpider()

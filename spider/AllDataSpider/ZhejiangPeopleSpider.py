@@ -3,7 +3,7 @@
 2. 对于每类页面，遍历
 '''
 from time import sleep
-from ToDataBase import ToDataBase
+from ConOfAllData import ConOfAllData
 import requests
 from bs4 import BeautifulSoup
 
@@ -18,8 +18,7 @@ class ZheJiangSpider(object):
            'Connection': 'keep-alive',
            'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) Gecko/20100101 Firefox/72.0'
         }
-        self.connection = MyMongoDB()
-        self.ToDataBase("浙江人大网")
+        self.ConOfAllData("zhejiang")
         self.baseUrl = 'http://www.zjrd.gov.cn/'
         self.urlList = {
             'rdgl/gzzd/','rdgl/rdzs/',
@@ -63,7 +62,7 @@ class ZheJiangSpider(object):
                 sleep(0.3)
                 a = table.find('a')
                 articleUrl = fullUrl+a['href'][2:]
-                if not self.ToDataBase.Isexist(articleUrl):
+                if not self.ConOfAllData.isexist(articleUrl):
                     res = {}
                     res['title'] = a.get_text()
                     res['real_url'] = articleUrl
@@ -71,7 +70,7 @@ class ZheJiangSpider(object):
                     res['time'] = table.find('td', attrs={'width':'12%'}).get_text()
                     res['site'] = '浙江人大网'
                     print(res)
-                    self.ToDataBase.Insert(res)
+                    self.ConOfAllData.insert(res)
 
     def parseArt(self, articleUrl):
         response = requests.get(articleUrl,headers=self.headers)
@@ -83,7 +82,7 @@ class ZheJiangSpider(object):
     def run(self):
         try:
             self.getResponse()
-            self.ToDataBase.End()
+            self.ConOfAllData.end()
         except:
             print("失败")
 
