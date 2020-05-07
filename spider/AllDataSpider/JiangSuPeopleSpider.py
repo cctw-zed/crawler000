@@ -1,5 +1,6 @@
-from ConOfAllData import ConOfAllData
+# from ConOfAllData import ConOfAllData
 from time import sleep
+from ES import ES
 from bs4 import BeautifulSoup
 import requests
 import urllib.request
@@ -7,7 +8,7 @@ import time
 from urllib.parse import urljoin
 import re
 
-class JiangSuSpider(object):
+class JiangSuPeopleSpider(object):
     def __init__(self):
         self.headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -18,8 +19,8 @@ class JiangSuSpider(object):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
     }
 
-        self.connection = ConOfAllData('jiangsu')
-
+        # self.connection = ConOfAllData('jiangsu')
+        self.es = ES()
         self.start_list = [
             'http://www.jsrd.gov.cn/sy/xw_syxw/',
 
@@ -31,7 +32,7 @@ class JiangSuSpider(object):
         ]
     # 抓取url得到response
     def crawl(self, url):
-        time.sleep(1)
+        time.sleep(0.3)
         # s = requests.session
         try:
             session = requests.session()
@@ -58,9 +59,9 @@ class JiangSuSpider(object):
             for taga in tagas:
                 try:
                     nowurl = urljoin(url,taga.get('href'))
-                    if self.connection.isexist(nowurl)==False:
-                        rep = self.crawl(nowurl)
-                        self.aimPageParse(rep,nowurl)
+                    # if self.connection.isexist(nowurl)==False:
+                    rep = self.crawl(nowurl)
+                    self.aimPageParse(rep,nowurl)
                 except:
                     continue
         except Exception as e:
@@ -80,10 +81,11 @@ class JiangSuSpider(object):
             res['real_url'] = url
             # res['abstract'] = self.getContent(hrefurl)
             res['abstract'] = soup.find('div',attrs={'id':'content'}).get_text()
-            res['time'] = re.search(r"(\d{4}-\d{1,2}-\d{1,2}\s\d{1,2}:\d{1,2}:\d{1,2})",soup.find('div', attrs={'id':'ptime'}).get_text()).group(0)
+            res['time'] = re.search(r"(\d{4}-\d{1,2}-\d{1,2}\s\d{1,2}:\d{1,2}:\d{1,2})",soup.find('div', attrs={'id':'ptime'}).get_text()).group(0)[0:10]
             res['site'] = '江苏人大网'
-            self.connection.insert(res)
-            print(res)
+            # self.connection.insert(res)
+            self.es.InsertData(res)
+            # print(res)
         except Exception as e:
             print(e)
             print('江苏人大网解析出错')
@@ -105,11 +107,11 @@ class JiangSuSpider(object):
                         continue
             except:
                 continue
-        self.connection.end()
+        # self.connection.end()
         
 
 if __name__ == "__main__":
-    Spider = JiangSuSpider()
+    Spider = JiangSuPeopleSpider()
     Spider.run()
     # rep = Spider.crawl('http://www.rd.gd.cn/pub/gdrd2012/rdzs/index.html')
     # Spider.parse(rep,'http://www.rd.gd.cn/pub/gdrd2012/rdzs/index.html')

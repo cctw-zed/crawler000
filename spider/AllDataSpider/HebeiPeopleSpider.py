@@ -1,4 +1,4 @@
-from ConOfAllData import ConOfAllData
+# from ConOfAllData import ConOfAllData
 from time import sleep
 from bs4 import BeautifulSoup
 import requests
@@ -7,8 +7,9 @@ import time
 from urllib.parse import urljoin
 import re
 from lxml import etree
+from ES import ES
 
-class HebeiSpider(object):
+class HebeiPeopleSpider(object):
     def __init__(self):
         self.headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -19,7 +20,8 @@ class HebeiSpider(object):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
     }
 
-        self.connection = ConOfAllData('hebei')
+        # self.connection = ConOfAllData('hebei')
+        self.es = ES()
 
         self.start_list = [
             'http://www.hbrd.gov.cn/system/more/113002011000000000/0000/113002011000000000_000000{}.shtml',
@@ -44,7 +46,7 @@ class HebeiSpider(object):
         ]
     # 抓取url得到response
     def crawl(self, url):
-        time.sleep(1)
+        time.sleep(0.3)
         # s = requests.session
         try:
             session = requests.session()
@@ -65,9 +67,9 @@ class HebeiSpider(object):
             for taga in tagas:
                 try:
                     nowurl = urljoin(url,taga.get('href'))
-                    if self.connection.isexist(nowurl)==False:
-                        rep = self.crawl(nowurl)
-                        self.aimPageParse(rep,nowurl)
+                    # if self.connection.isexist(nowurl)==False:
+                    rep = self.crawl(nowurl)
+                    self.aimPageParse(rep,nowurl)
                 except:
                     continue
         except Exception as e:
@@ -88,10 +90,11 @@ class HebeiSpider(object):
             res['real_url'] = url
             # res['abstract'] = self.getContent(hrefurl)
             res['abstract'] = soup.find('div',attrs={'class':'m_ct_txt'}).get_text().strip()
-            res['time'] = re.search(r"(\d{4}-\d{1,2}-\d{1,2}\s\d{1,2}:\d{1,2}:\d{1,2})",soup.find('div', attrs={'class':'infobox'}).get_text()).group(0)
+            res['time'] = re.search(r"(\d{4}-\d{1,2}-\d{1,2}\s\d{1,2}:\d{1,2}:\d{1,2})",soup.find('div', attrs={'class':'infobox'}).get_text()).group(0)[0:10]
             res['site'] = '河北人大网'
-            self.connection.insert(res)
-            print(res)
+            # self.connection.insert(res)
+            self.es.InsertData(res)
+            # print(res)
         except Exception as e:
             print(e)
             print('河北人大网')
@@ -115,11 +118,11 @@ class HebeiSpider(object):
                         continue
             except:
                 continue
-        self.connection.end()
+        # self.connection.end()
         
 
 if __name__ == "__main__":
-    Spider = HebeiSpider()
+    Spider = HebeiPeopleSpider()
     Spider.run()
     # rep = Spider.crawl('http://www.rd.gd.cn/pub/gdrd2012/rdzs/index.html')
     # Spider.parse(rep,'http://www.rd.gd.cn/pub/gdrd2012/rdzs/index.html')
