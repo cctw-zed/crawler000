@@ -2,12 +2,13 @@
 1. 将需要爬取的文章列表页面放进待爬取列表
 2. 对于每类页面，遍历
 '''
+from ES import ES
 from time import sleep
-from ConOfAllData import ConOfAllData
+# from ConOfAllData import ConOfAllData
 import requests
 from bs4 import BeautifulSoup
 
-class YunNanSpider(object):
+class YunnanPeopleSpider(object):
 
     def __init__(self):
         self.headers = {
@@ -17,7 +18,8 @@ class YunNanSpider(object):
             'Connection': 'keep-alive',
             'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) Gecko/20100101 Firefox/72.0'
         }
-        self.ConOfAllData("yunnan")
+        # self.ConOfAllData("yunnan")
+        self.es = ES()
         self.baseUrl = 'http://www.srd.yn.gov.cn/'
         self.urlList = {
             'rdyw/',
@@ -69,15 +71,17 @@ class YunNanSpider(object):
                 sleep(0.3)
                 a = li.find('a')
                 articleUrl = fullUrl + a['href'][2:]
-                if not self.ConOfAllData.isexist(articleUrl):
-                    res = {}
-                    res['title'] = a.get_text()
-                    res['real_url'] = articleUrl
-                    res['abstract'] = self.parseArt(articleUrl)
-                    res['time'] = li.find('span').get_text()
-                    res['site'] = '云南人大网'
-                    # print(res)
-                    self.ConOfAllData.insert(res)
+                # if not self.ConOfAllData.isexist(articleUrl):
+                res = {}
+                res['title'] = a.get_text()
+                res['real_url'] = articleUrl
+                res['abstract'] = self.parseArt(articleUrl)
+                res['time'] = li.find('span').get_text()
+                res['site'] = '云南人大网'
+                self.es.InsertData(res)
+
+                # print(res)
+                    # self.ConOfAllData.insert(res)
 
     def parseArt(self, articleUrl):
         response = requests.get(articleUrl,headers=self.headers)
@@ -92,8 +96,8 @@ class YunNanSpider(object):
 
     def run(self):
         self.getResponse()
-        self.ConOfAllData.end()
+        # self.ConOfAllData.end()
 
 if __name__ == "__main__":
-    spider = YunNanSpider()
+    spider = YunnanPeopleSpider()
     spider.run()

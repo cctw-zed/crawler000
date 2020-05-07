@@ -2,12 +2,16 @@
 1. 将需要爬取的文章列表页面放进待爬取列表
 2. 对于每类页面，遍历
 '''
+import time
 from time import sleep
-from ConOfAllData import ConOfAllData
+from ES import ES
+# from ConOfAllData import ConOfAllData
 import requests
 from bs4 import BeautifulSoup
+from elasticsearch import Elasticsearch
 
-class ZheJiangSpider(object):
+
+class ZhejiangPeopleSpider(object):
 
     def __init__(self):
         self.headers = {
@@ -18,7 +22,8 @@ class ZheJiangSpider(object):
            'Connection': 'keep-alive',
            'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) Gecko/20100101 Firefox/72.0'
         }
-        self.ConOfAllData("zhejiang")
+        # self.ConOfAllData("zhejiang")
+        self.es = ES()
         self.baseUrl = 'http://www.zjrd.gov.cn/'
         self.urlList = {
             'rdgl/gzzd/','rdgl/rdzs/',
@@ -41,12 +46,18 @@ class ZheJiangSpider(object):
             fullUrl = self.baseUrl + url
             # pages存放所有存放文章列表的页面
             pages = []
-            pages.append(requests.get(fullUrl,headers=self.headers))
-            index = 1
+            try:
+                pages.append(requests.get(fullUrl,headers=self.headers))
+                index = 1
+            except:
+                continue
             while True:
                 sleep(0.3)
                 tail = 'index_' + str(index) + '.html'
-                page = requests.get(fullUrl + tail)
+                try:
+                    page = requests.get(fullUrl + tail)
+                except:
+                    continue
                 if page.status_code == 200:
                     pages.append(page)
                     index += 1
@@ -59,19 +70,24 @@ class ZheJiangSpider(object):
             soup = BeautifulSoup(page.text, 'lxml')
             tables = soup.findAll('table', attrs={'width':'770'})
             for table in tables:
-                sleep(0.3)
-                a = table.find('a')
-                articleUrl = fullUrl+a['href'][2:]
-                if not self.ConOfAllData.isexist(articleUrl):
+                sleep(0.04)
+                try:
+                    a = table.find('a')
+                    articleUrl = fullUrl+a['href'][2:]
+                    # if not self.ConOfAllData.isexist(articleUrl):
                     res = {}
                     res['title'] = a.get_text()
                     res['real_url'] = articleUrl
                     res['abstract'] = self.parseArt(articleUrl)
                     res['time'] = table.find('td', attrs={'width':'12%'}).get_text()
+                    print(type(res['time']))
                     res['site'] = '浙江人大网'
-                    print(res)
-                    self.ConOfAllData.insert(res)
-
+                    # print(res)
+                    # self.es.InsertData(res)
+                    # print(res)
+                    # self.ConOfAllData.insert(res)
+                except:
+                    continue
     def parseArt(self, articleUrl):
         response = requests.get(articleUrl,headers=self.headers)
         soup = BeautifulSoup(response.text, 'lxml')
@@ -80,12 +96,11 @@ class ZheJiangSpider(object):
         return p.get_text()
 
     def run(self):
-        try:
-            self.getResponse()
-            self.ConOfAllData.end()
-        except:
-            print("失败")
+        self.getResponse()
+            # self.ConOfAllData.end()
 
 if __name__ == "__main__":
-    spider = ZheJiangSpider()
+    t1 = 1, time.time()
+    spider = ZhejiangPeopleSpider()
     spider.run()
+    print('Total time: %.1f s' % (time.time() - t1))  # 53 s

@@ -2,12 +2,13 @@ from time import sleep
 from bs4 import BeautifulSoup
 import requests
 import re
-from ConOfAllData import ConOfAllData
-
+# from ConOfAllData import ConOfAllData
+# from ES import ES
 
 class GuizhouPeopleSpider(object):
     def __init__(self):
-        self.coad = ConOfAllData("guizhourenda")
+        # self.coad = ConOfAllData("guizhourenda")
+        self.es = ES()
         self.http_head = "http://www.gzrd.gov.cn"
         self.headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -42,15 +43,15 @@ class GuizhouPeopleSpider(object):
         for item in alist:
             hrefandtitle = item.find("a")
             real_url = self.http_head + hrefandtitle.get("href")
-            if not self.coad.isexist(real_url):
-                res = {}
-                res["real_url"] = real_url
-                res['title'] = hrefandtitle.get("title")
-                res['time'] = item.find("span").get_text()
-                res['site'] = '贵州人大网'
-                sleep(0.1)
-                res['abstract'] = self.get_content(real_url)
-                self.coad.insert(res)
+            # if not self.coad.isexist(real_url):
+            res = {}
+            res["real_url"] = real_url
+            res['title'] = hrefandtitle.get("title")
+            res['time'] = item.find("span").get_text()
+            res['site'] = '贵州人大网'
+            sleep(0.1)
+            res['abstract'] = self.get_content(real_url)
+            self.es.InsertData(res)
 
     def get_content(self, url):
         response = requests.get(url, headers=self.headers)
@@ -100,7 +101,7 @@ class GuizhouPeopleSpider(object):
         ]
         for item in url_head:
             self.getPage(item)
-        self.coad.end()
+        # self.coad.end()
 
 
 if __name__ == "__main__":

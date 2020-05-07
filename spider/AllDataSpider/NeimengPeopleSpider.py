@@ -5,9 +5,10 @@
 import re
 import time
 from time import sleep
-from ConOfAllData import ConOfAllData
+# from ConOfAllData import ConOfAllData
 import requests
 from bs4 import BeautifulSoup
+from ES import ES
 
 class NeimengPeopleSpider(object):
 
@@ -19,13 +20,14 @@ class NeimengPeopleSpider(object):
             'Connection': 'keep-alive',
             'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) Gecko/20100101 Firefox/72.0'
         }
-        self.ConOfAllData("neimeng")
+        # self.ConOfAllData("neimeng")
         self.baseUrl = 'http://www.nmgrd.gov.cn/'
         self.urlList_rightbox = {
             "xw/",  "jdgz/",
             "xjrm/", "sj2/",
             "jdsx/", "dfxfgzqyj/lfgzdd/",
         }
+        self.es = ES()
 
     def getResponse(self, urlList):
         # 对于列表中的所有url
@@ -66,31 +68,31 @@ class NeimengPeopleSpider(object):
             else:
                 lists = div.find_all('dl')
             for li in lists:
-                sleep(0.3)
+                # sleep(0.3)
                 r = re.search(r'\./(.*?)html', str(li), re.M).group()[2:]
                 articleUrl = fullUrl + r
                 if re.match(r'\.\./(.*?)html', r):
                     r = r[3:]
                     articleUrl = self.baseUrl + r
-                if not self.ConOfAllData.isexist(articleUrl):
-                    # 注释部分用来按时间筛选
-                    # time_stamp_1 = time.mktime(time.strptime('2019-01-01', '%Y-%m-%d'))
-                    createdtime = li.find('span').get_text()
-                    # time_stamp_2 = time.mktime(time.strptime(createdtime, '%Y-%m-%d'))
-                    # if time_stamp_1 > time_stamp_2:
-                    #     continue
-                    res = {}
-                    p = self.parseArt(articleUrl)
-                    if p[1] == "":
-                        continue
-                    res['title'] = p[1]
-                    res['real_url'] = articleUrl
-                    res['abstract'] = p[0]
-                    res['time'] = createdtime
-                    res['site'] = '内蒙古人大网'
-                    print(res)
-                    self.ConOfAllData.insert(res)
-
+                # if not self.ConOfAllData.isexist(articleUrl):
+                # 注释部分用来按时间筛选
+                # time_stamp_1 = time.mktime(time.strptime('2019-01-01', '%Y-%m-%d'))
+                createdtime = li.find('span').get_text()
+                # time_stamp_2 = time.mktime(time.strptime(createdtime, '%Y-%m-%d'))
+                # if time_stamp_1 > time_stamp_2:
+                #     continue
+                res = {}
+                p = self.parseArt(articleUrl)
+                if p[1] == "":
+                    continue
+                res['title'] = p[1]
+                res['real_url'] = articleUrl
+                res['abstract'] = p[0]
+                res['time'] = createdtime
+                res['site'] = '内蒙古人大网'
+                # print(res)
+                self.es.InsertData(res)
+                # self.ConOfAllData.insert(r
     def parseArt(self, articleUrl):
         try:
             response = requests.get(articleUrl,headers=self.headers)
@@ -109,7 +111,7 @@ class NeimengPeopleSpider(object):
 
     def run(self):
         self.getResponse(self.urlList_rightbox)
-        self.ConOfAllData.end()
+        # self.ConOfAllData.end()
 
 if __name__ == "__main__":
     spider = NeimengPeopleSpider()

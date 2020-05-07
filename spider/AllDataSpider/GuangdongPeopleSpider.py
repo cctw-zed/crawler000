@@ -1,4 +1,5 @@
-from ConOfAllData import ConOfAllData
+# from ConOfAllData import ConOfAllData
+from ES import ES
 from time import sleep
 from bs4 import BeautifulSoup
 import requests
@@ -7,7 +8,7 @@ import time
 from urllib.parse import urljoin
 import re
 
-class GuangdongSpider(object):
+class GuangdongPeopleSpider(object):
     def __init__(self):
         self.headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -19,8 +20,8 @@ class GuangdongSpider(object):
     }
 
         self.base_url = 'http://www.rd.gd.cn/'
-        self.connection = ConOfAllData('guangdong')
-
+        # self.connection = ConOfAllData('guangdong')
+        self.es = ES()
         self.start_list = [
             'http://www.rd.gd.cn/pub/gdrd2012/rdgz/lfjj/',
             'http://www.rd.gd.cn/pub/gdrd2012/rdgz/jdsd',
@@ -38,7 +39,7 @@ class GuangdongSpider(object):
         ]
     # 抓取url得到response
     def crawl(self, url):
-        time.sleep(1)
+        time.sleep(0.3)
         # s = requests.session
         try:
             session = requests.session()
@@ -63,9 +64,9 @@ class GuangdongSpider(object):
                 for taga in tagas:
                     try:
                         nowurl = urljoin(url,taga.get('href'))
-                        if self.connection.isexist(nowurl)==False:
-                            rep = self.crawl(nowurl)
-                            self.aimPageParse(rep,nowurl)
+                        # if self.connection.isexist(nowurl)==False:
+                        rep = self.crawl(nowurl)
+                        self.aimPageParse(rep,nowurl)
                     except:
                         continue
         except:
@@ -76,24 +77,25 @@ class GuangdongSpider(object):
     def aimPageParse(self,rep, url):
         # print(contents_list)
         try:
-            print('开始解析目标页面了\n')
+            # print('开始解析目标页面了\n')
             rep.encoding = 'GBK'
             soup = BeautifulSoup(rep.text,'lxml')
             contents = soup.find('div', attrs={'class':'GtDetail'})
             # print(content)
             title = contents.find('div', attrs = {'class':'title'}).get_text()
             timegroup = re.search(r"(\d{4}-\d{1,2}-\d{1,2}\s\d{1,2}:\d{1,2}:\d{1,2})",contents.find('div', attrs={'class':'time'}).get_text())
-            time = timegroup.group(0)
+            createdtime = timegroup.group(0)[0:10]
             content = contents.find('div', attrs={'class':'content'}).get_text().strip()
             res = {}
             res['title'] = title
             res['real_url'] = url
             # res['abstract'] = self.getContent(hrefurl)
             res['abstract'] = content
-            res['time'] = time
+            res['time'] = createdtime
             res['site'] = '广东人大网'
-            self.connection.insert(res)
-            print(res)
+            # self.connection.insert(res)
+            self.es.InsertData(res)
+            # print(res)
         except:
             print('广东人大解析出错')
             pass
@@ -114,11 +116,11 @@ class GuangdongSpider(object):
                         continue
             except:
                 continue
-        self.connection.end()
+        # self.connection.end()
         
 
 if __name__ == "__main__":
-    Spider = GuangdongSpider()
+    Spider = GuangdongPeopleSpider()
     Spider.run()
     # rep = Spider.crawl('http://www.rd.gd.cn/pub/gdrd2012/rdzs/index.html')
     # Spider.parse(rep,'http://www.rd.gd.cn/pub/gdrd2012/rdzs/index.html')

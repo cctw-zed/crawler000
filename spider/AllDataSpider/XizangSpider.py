@@ -1,4 +1,5 @@
-from ConOfAllData import ConOfAllData
+# from ConOfAllData import ConOfAllData
+from ES import ES
 from time import sleep
 from bs4 import BeautifulSoup
 import requests
@@ -18,8 +19,8 @@ class XizangSpider(object):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
     }
 
-        self.connection = ConOfAllData('xizang')
-
+        # self.connection = ConOfAllData('xizang')
+        self.es = ES()
         self.start_list = [
             'http://www.xizangrd.gov.cn/List/19-{}.htm',
             'http://www.xizangrd.gov.cn/List/4-{}.htm',
@@ -59,9 +60,9 @@ class XizangSpider(object):
             for taga in tagas:
                 try:
                     nowurl = urljoin(url,taga.get('href'))
-                    if self.connection.isexist(nowurl)==False:
-                        rep = self.crawl(nowurl)
-                        self.aimPageParse(rep,nowurl)
+                    # if self.connection.isexist(nowurl)==False:
+                    rep = self.crawl(nowurl)
+                    self.aimPageParse(rep,nowurl)
                 except:
                     continue
         except Exception as e:
@@ -84,8 +85,9 @@ class XizangSpider(object):
             res['abstract'] = soup.find('div',attrs={'class':'content'}).get_text()
             res['time'] = re.search(r"(\d{4}-\d{1,2}-\d{1,2})",soup.find('div', attrs={'class':'about'}).get_text()).group(0)
             res['site'] = '西藏人大网'
-            self.connection.insert(res)
-            print(res)
+            # self.connection.insert(res)
+            self.es.InsertData(res)
+            # print(res)
         except Exception as e:
             print(e)
             print('西藏人大网')
@@ -104,7 +106,7 @@ class XizangSpider(object):
                         continue
             except:
                 continue
-        self.connection.end()
+        # self.connection.end()
         
 
 if __name__ == "__main__":
