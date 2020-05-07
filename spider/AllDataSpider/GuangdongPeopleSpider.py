@@ -21,7 +21,7 @@ class GuangdongPeopleSpider(object):
 
         self.base_url = 'http://www.rd.gd.cn/'
         # self.connection = ConOfAllData('guangdong')
-        self.es = ES('spider')
+        self.es = ES('allspider')
         self.start_list = [
             'http://www.rd.gd.cn/pub/gdrd2012/rdgz/lfjj/',
             'http://www.rd.gd.cn/pub/gdrd2012/rdgz/jdsd',

@@ -24,7 +24,7 @@ class ZhejiangPeopleSpider(object):
         }
         # self.ConOfAllData("zhejiang")
         # self.es = ES()
-        self.es = ES('spider')
+        self.es = ES('allspider')
         self.baseUrl = 'http://www.zjrd.gov.cn/'
         self.urlList = {
             'rdgl/gzzd/','rdgl/rdzs/',
