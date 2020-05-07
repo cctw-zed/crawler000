@@ -51,7 +51,7 @@ class XinjiangPeopleSpider(object):
                 res['title'] = item.find("a").get_text()
                 res['time'] = item.find("span").get_text()[1:11]
                 res['site'] = '新疆人大网'
-                # sleep(0.1)
+                sleep(0.1)
                 res['abstract'] = self.get_content(real_url)
                 # self.coad.insert(res)
                 self.es.InsertData(res)

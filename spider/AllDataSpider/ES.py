@@ -47,24 +47,24 @@ class ES(object):
 
 
 if __name__ == '__main__':
-    # es = ES('spider')
-    # es.search(['野生动物违法'])
-    es = Elasticsearch()
-    es.indices.create(index='allSpider', ignore=[400,404])
-    mapping = {
-        'properties': {
-            'title': {
-                'type': 'text',
-                'analyzer': 'ik_max_word',
-                'search_analyzer': 'ik_max_word'
-            },
-            'abstract': {
-                'type': 'text',
-                'analyzer': 'ik_max_word',
-                'search_analyzer': 'ik_max_word'
-            }
-        }
-    }
-    result = es.indices.put_mapping(index='allSpider', body=mapping)
-    print(result)
+    es = ES('spider')
+    es.search(['野生动物违法'])
+    # es = Elasticsearch()
+    # es.indices.create(index='allspider', ignore=[400,404])
+    # mapping = {
+    #     'properties': {
+    #         'title': {
+    #             'type': 'text',
+    #             'analyzer': 'ik_max_word',
+    #             'search_analyzer': 'ik_max_word'
+    #         },
+    #         'abstract': {
+    #             'type': 'text',
+    #             'analyzer': 'ik_max_word',
+    #             'search_analyzer': 'ik_max_word'
+    #         }
+    #     }
+    # }
+    # result = es.indices.put_mapping(index='allspider', body=mapping)
+    # print(result)
     # result['hits']['hits']
