@@ -43,7 +43,7 @@ class ES(object):
         }
         result = self.es.search(index=self.indexName,body=dsl,ignore=404)
         # print(result['hits']['hits'][0]['_source'])
-        # print(json.dumps(result, indent=2, ensure_ascii=False))
+        print(json.dumps(result, indent=2, ensure_ascii=False))
 
 
 if __name__ == '__main__':

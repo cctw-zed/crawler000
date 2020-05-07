@@ -8,7 +8,8 @@ from ES import ES
 class GuizhouPeopleSpider(object):
     def __init__(self):
         # self.coad = ConOfAllData("guizhourenda")
-        self.es = ES()
+        # self.es = ES()
+        self.es = ES('spider')
         self.http_head = "http://www.gzrd.gov.cn"
         self.headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',

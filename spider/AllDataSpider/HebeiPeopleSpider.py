@@ -21,7 +21,8 @@ class HebeiPeopleSpider(object):
     }
 
         # self.connection = ConOfAllData('hebei')
-        self.es = ES()
+        # self.es = ES()
+        self.es = ES('spider')
 
         self.start_list = [
             'http://www.hbrd.gov.cn/system/more/113002011000000000/0000/113002011000000000_000000{}.shtml',

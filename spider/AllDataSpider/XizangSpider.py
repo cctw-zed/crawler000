@@ -20,7 +20,8 @@ class XizangSpider(object):
     }
 
         # self.connection = ConOfAllData('xizang')
-        self.es = ES()
+        # self.es = ES()
+        self.es = ES('spider')
         self.start_list = [
             'http://www.xizangrd.gov.cn/List/19-{}.htm',
             'http://www.xizangrd.gov.cn/List/4-{}.htm',

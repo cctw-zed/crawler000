@@ -23,7 +23,8 @@ class ZhejiangPeopleSpider(object):
            'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) Gecko/20100101 Firefox/72.0'
         }
         # self.ConOfAllData("zhejiang")
-        self.es = ES()
+        # self.es = ES()
+        self.es = ES('spider')
         self.baseUrl = 'http://www.zjrd.gov.cn/'
         self.urlList = {
             'rdgl/gzzd/','rdgl/rdzs/',
