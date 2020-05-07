@@ -28,7 +28,7 @@ class NeimengPeopleSpider(object):
             "jdsx/", "dfxfgzqyj/lfgzdd/",
         }
         # self.es = ES()
-        self.es = ES('spider')
+        self.es = ES('allspider')
 
     def getResponse(self, urlList):
         # 对于列表中的所有url
