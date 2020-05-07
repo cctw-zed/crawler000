@@ -48,27 +48,27 @@ class ES(object):
 
 
 if __name__ == '__main__':
-    es = ES('allspider')
-    result = es.search(['会议'])
-    print(len(result["hits"]["hits"]))
+    # es = ES('allspider')
+    # result = es.search(['会议'])
+    # print(len(result["hits"]["hits"]))
     # for item in result["hits"]["hits"]:
     #     print(item["_source"])
-    # es = Elasticsearch()
-    # es.indices.create(index='allSpider', ignore=[400,404])
-    # mapping = {
-    #     'properties': {
-    #         'title': {
-    #             'type': 'text',
-    #             'analyzer': 'ik_max_word',
-    #             'search_analyzer': 'ik_max_word'
-    #         },
-    #         'abstract': {
-    #             'type': 'text',
-    #             'analyzer': 'ik_max_word',
-    #             'search_analyzer': 'ik_max_word'
-    #         }
-    #     }
-    # }
-    # result = es.indices.put_mapping(index='allSpider', body=mapping)
-    # print(result)
+    es = Elasticsearch()
+    es.indices.create(index='allspider', ignore=[400,404])
+    mapping = {
+        'properties': {
+            'title': {
+                'type': 'text',
+                'analyzer': 'ik_max_word',
+                'search_analyzer': 'ik_max_word'
+            },
+            'abstract': {
+                'type': 'text',
+                'analyzer': 'ik_max_word',
+                'search_analyzer': 'ik_max_word'
+            }
+        }
+    }
+    result = es.indices.put_mapping(index='allspider', body=mapping)
+    print(result)
     # result['hits']['hits']
