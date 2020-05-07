@@ -21,7 +21,7 @@ class JiangSuPeopleSpider(object):
 
         # self.connection = ConOfAllData('jiangsu')
         # self.es = ES()
-        self.es = ES('spider')
+        self.es = ES('allspider')
         self.start_list = [
             'http://www.jsrd.gov.cn/sy/xw_syxw/',
 

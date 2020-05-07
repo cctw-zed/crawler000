@@ -28,12 +28,12 @@ class ES(object):
     def InsertData(self, body):
         # 将主键id修改为title，防止重复。且index函数自带更新功能
         result = self.es.index(index=self.indexName ,id=body['title'],ignore=[400,409],body=body)
-        print(result)
+        # print(result)
 
     def search(self, *args):
         keyword = " ".join(str(i) for i in args)
         dsl = {
-            'size':100,
+            'size': 1000,
             'query': {
                 'bool': {
                     'should': {'match':{'title': keyword}},
@@ -41,16 +41,20 @@ class ES(object):
                 },
             },
         }
-        result = self.es.search(index=self.indexName,body=dsl,ignore=404)
+        result = self.es.search(index=self.indexName, body=dsl, ignore=404)
+        return result
         # print(result['hits']['hits'][0]['_source'])
-        print(json.dumps(result, indent=2, ensure_ascii=False))
+        # print(json.dumps(result, indent=2, ensure_ascii=False))
 
 
 if __name__ == '__main__':
-    es = ES('spider')
-    es.search(['野生动物违法'])
+    es = ES('allspider')
+    result = es.search(['会议'])
+    print(len(result["hits"]["hits"]))
+    # for item in result["hits"]["hits"]:
+    #     print(item["_source"])
     # es = Elasticsearch()
-    # es.indices.create(index='allspider', ignore=[400,404])
+    # es.indices.create(index='allSpider', ignore=[400,404])
     # mapping = {
     #     'properties': {
     #         'title': {
@@ -65,6 +69,6 @@ if __name__ == '__main__':
     #         }
     #     }
     # }
-    # result = es.indices.put_mapping(index='allspider', body=mapping)
+    # result = es.indices.put_mapping(index='allSpider', body=mapping)
     # print(result)
     # result['hits']['hits']

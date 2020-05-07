@@ -20,7 +20,7 @@ class YunnanPeopleSpider(object):
         }
         # self.ConOfAllData("yunnan")
         # self.es = ES()
-        self.es = ES('spider')
+        self.es = ES('allspider')
         self.baseUrl = 'http://www.srd.yn.gov.cn/'
         self.urlList = {
             'rdyw/',

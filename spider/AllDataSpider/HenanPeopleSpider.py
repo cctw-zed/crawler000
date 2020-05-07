@@ -8,7 +8,7 @@ class HenanPeopleSpider(object):
     def __init__(self):
         # self.coad = ConOfAllData("henanrenda")
         # self.es = ES()
-        self.es = ES('spider')
+        self.es = ES('allspider')
         self.headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
             'Accept-Encoding': 'gzip, deflate',
