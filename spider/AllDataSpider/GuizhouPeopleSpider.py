@@ -50,7 +50,7 @@ class GuizhouPeopleSpider(object):
             res['title'] = hrefandtitle.get("title")
             res['time'] = item.find("span").get_text()
             res['site'] = '贵州人大网'
-            # sleep(0.1)
+            sleep(0.1)
             res['abstract'] = self.get_content(real_url)
             self.es.InsertData(res)
 
