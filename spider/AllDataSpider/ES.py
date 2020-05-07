@@ -45,23 +45,23 @@ class ES(object):
 
 
 if __name__ == '__main__':
-    es = ES()
-    es.search(['人民','代表大会'])
-    # es = Elasticsearch()
-    # es.indices.create(index='spider', ignore=[400,404])
-    # mapping = {
-    #     'properties': {
-    #         'title': {
-    #             'type': 'text',
-    #             'analyzer': 'ik_max_word',
-    #             'search_analyzer': 'ik_max_word'
-    #         },
-    #         'abstract': {
-    #             'type': 'text',
-    #             'analyzer': 'ik_max_word',
-    #             'search_analyzer': 'ik_max_word'
-    #         }
-    #     }
-    # }
-    # result = es.indices.put_mapping(index='spider', body=mapping)
-    # print(result)
+    # es = ES()
+    # es.search(['人民','代表大会'])
+    es = Elasticsearch()
+    es.indices.create(index='spider', ignore=[400,404])
+    mapping = {
+        'properties': {
+            'title': {
+                'type': 'text',
+                'analyzer': 'ik_max_word',
+                'search_analyzer': 'ik_max_word'
+            },
+            'abstract': {
+                'type': 'text',
+                'analyzer': 'ik_max_word',
+                'search_analyzer': 'ik_max_word'
+            }
+        }
+    }
+    result = es.indices.put_mapping(index='spider', body=mapping)
+    print(result)

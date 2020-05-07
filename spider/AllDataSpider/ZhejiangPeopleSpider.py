@@ -80,10 +80,9 @@ class ZhejiangPeopleSpider(object):
                     res['real_url'] = articleUrl
                     res['abstract'] = self.parseArt(articleUrl)
                     res['time'] = table.find('td', attrs={'width':'12%'}).get_text()
-                    print(type(res['time']))
                     res['site'] = '浙江人大网'
                     # print(res)
-                    # self.es.InsertData(res)
+                    self.es.InsertData(res)
                     # print(res)
                     # self.ConOfAllData.insert(res)
                 except:
@@ -99,8 +98,8 @@ class ZhejiangPeopleSpider(object):
         self.getResponse()
             # self.ConOfAllData.end()
 
-if __name__ == "__main__":
-    t1 = 1, time.time()
-    spider = ZhejiangPeopleSpider()
-    spider.run()
-    print('Total time: %.1f s' % (time.time() - t1))  # 53 s
+# if __name__ == "__main__":
+#     t1 = 1, time.time()
+#     spider = ZhejiangPeopleSpider()
+#     spider.run()
+#     print('Total time: %.1f s' % (time.time() - t1))  # 53 s

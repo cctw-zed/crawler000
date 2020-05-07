@@ -38,7 +38,7 @@ class XizangSpider(object):
         ]
     # 抓取url得到response
     def crawl(self, url):
-        time.sleep(1)
+        time.sleep(0.3)
         # s = requests.session
         try:
             session = requests.session()

@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import re
 # from ConOfAllData import ConOfAllData
-# from ES import ES
+from ES import ES
 
 class GuizhouPeopleSpider(object):
     def __init__(self):
@@ -30,7 +30,7 @@ class GuizhouPeopleSpider(object):
             self.parserPage(page)
             url = url_head + "index_" + str(page_index) + ".shtml"
             page_index += 1
-            sleep(0.5)
+            sleep(0.3)
             response = requests.get(url, headers=self.headers)
 
     def parserPage(self, page):
@@ -49,7 +49,7 @@ class GuizhouPeopleSpider(object):
             res['title'] = hrefandtitle.get("title")
             res['time'] = item.find("span").get_text()
             res['site'] = '贵州人大网'
-            sleep(0.1)
+            # sleep(0.1)
             res['abstract'] = self.get_content(real_url)
             self.es.InsertData(res)
 
@@ -100,7 +100,10 @@ class GuizhouPeopleSpider(object):
             "http://www.gzrd.gov.cn/dffg/zztldxtl/"
         ]
         for item in url_head:
-            self.getPage(item)
+            try:
+                self.getPage(item)
+            except:
+                continue
         # self.coad.end()
 
 

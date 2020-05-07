@@ -24,7 +24,7 @@ class HenanPeopleSpider(object):
             response.encoding = "UTF-8"
             page = response.text
             self.parserPage(page)
-            sleep(0.5)
+            sleep(0.3)
 
     def parserPage(self, page):
         soup = BeautifulSoup(page, 'lxml')
