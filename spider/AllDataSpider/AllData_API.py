@@ -1,7 +1,7 @@
 import traceback
 from flask import Flask, make_response
 from time import sleep
-from AllDataSpider.ES import ES
+from ES import ES
 from flask_restful import reqparse, abort, Api, Resource
 from BaiduSpider import BaiduSpider
 from BeijingPeopleSpider import BeijingSpider
