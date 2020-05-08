@@ -77,7 +77,7 @@ class XizangSpider(object):
     def aimPageParse(self,rep, url):
         # print(contents_list)
         try:
-            print('开始解析目标页面了\n')
+            # print('开始解析目标页面了\n')
             rep.encoding = 'utf-8'
             soup = BeautifulSoup(rep.text,'lxml')
             # print(soup)

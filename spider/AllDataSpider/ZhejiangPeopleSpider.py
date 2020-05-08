@@ -79,7 +79,6 @@ class ZhejiangPeopleSpider(object):
                     res = {}
                     res['title'] = a.get_text()
                     if self.es.isExist(res['title']):
-                        print('已存在')
                         continue
                     res['real_url'] = articleUrl
                     res['abstract'] = self.parseArt(articleUrl)
