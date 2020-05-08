@@ -120,8 +120,8 @@ class Canbegin(Resource):
 
 # 设置路由，即告诉Python程序URL的对应关系
 # 类似 localhost:5000/my_easy_class.api
-api.add_resource(Search, '/search/api')
-api.add_resource(Canbegin, "/canbegin/api")
+api.add_resource(Search, '/api/search')
+api.add_resource(Canbegin, "/api/canbegin")
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
