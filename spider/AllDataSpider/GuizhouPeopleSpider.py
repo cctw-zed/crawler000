@@ -48,6 +48,8 @@ class GuizhouPeopleSpider(object):
             res = {}
             res["real_url"] = real_url
             res['title'] = hrefandtitle.get("title")
+            if self.es.isExist(res['title']):
+                continue
             res['time'] = item.find("span").get_text()
             res['site'] = '贵州人大网'
             sleep(0.1)

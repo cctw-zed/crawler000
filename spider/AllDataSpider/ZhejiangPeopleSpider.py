@@ -78,6 +78,9 @@ class ZhejiangPeopleSpider(object):
                     # if not self.ConOfAllData.isexist(articleUrl):
                     res = {}
                     res['title'] = a.get_text()
+                    if self.es.isExist(res['title']):
+                        print('已存在')
+                        continue
                     res['real_url'] = articleUrl
                     res['abstract'] = self.parseArt(articleUrl)
                     res['time'] = table.find('td', attrs={'width':'12%'}).get_text()
@@ -99,8 +102,8 @@ class ZhejiangPeopleSpider(object):
         self.getResponse()
             # self.ConOfAllData.end()
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 #     t1 = 1, time.time()
-#     spider = ZhejiangPeopleSpider()
-#     spider.run()
+    spider = ZhejiangPeopleSpider()
+    spider.run()
 #     print('Total time: %.1f s' % (time.time() - t1))  # 53 s

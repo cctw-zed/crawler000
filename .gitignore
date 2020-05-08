@@ -1,15 +1,4 @@
 /Search/search/node_modules/
-/spider/__pychache__/
 Search/es/__init__.py
-spider/AllDataSpider/__pycache__/GuangdongPeopleSpider.cpython-37.pyc
-spider/AllDataSpider/__pycache__/GuizhouPeopleSpider.cpython-37.pyc
-spider/AllDataSpider/__pycache__/HebeiPeopleSpider.cpython-37.pyc
-spider/AllDataSpider/__pycache__/HenanPeopleSpider.cpython-37.pyc
-spider/AllDataSpider/__pycache__/JiangSuPeopleSpider.cpython-37.pyc
-spider/AllDataSpider/__pycache__/NeimengPeopleSpider.cpython-37.pyc
-spider/AllDataSpider/__pycache__/TianJinSpider.cpython-37.pyc
-spider/AllDataSpider/__pycache__/XinjiangPeopleSpider.cpython-37.pyc
-spider/AllDataSpider/__pycache__/XizangSpider.cpython-37.pyc
-spider/AllDataSpider/__pycache__/YunnanPeopleSpider.cpython-37.pyc
-spider/AllDataSpider/__pycache__/ZhejiangPeopleSpider.cpython-37.pyc
+*/__pycache__
 spider/AllDataSpider/test.py
