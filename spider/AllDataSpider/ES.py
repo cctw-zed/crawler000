@@ -32,6 +32,9 @@ class ES(object):
 
     def isExist(self, title):
         return self.es.exists(index=self.indexName, id=title)
+        # if result:
+        #     print('该页面已存在')
+        # return  result
 
     def search(self, *args):
         keyword = " ".join(str(i) for i in args)
