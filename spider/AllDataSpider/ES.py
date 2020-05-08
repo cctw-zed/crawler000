@@ -30,6 +30,9 @@ class ES(object):
         result = self.es.index(index=self.indexName ,id=body['title'],ignore=[400,409],body=body)
         print(result)
 
+    def isExist(self, title):
+        return self.es.exists(index=self.indexName, id=title)
+
     def search(self, *args):
         keyword = " ".join(str(i) for i in args)
         dsl = {
