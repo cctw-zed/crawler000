@@ -68,7 +68,10 @@ class HebeiPeopleSpider(object):
             for taga in tagas:
                 try:
                     nowurl = urljoin(url,taga.get('href'))
+                    title = taga.get_text()
                     # if self.connection.isexist(nowurl)==False:
+                    if self.es.isExist(title):
+                        continue
                     rep = self.crawl(nowurl)
                     self.aimPageParse(rep,nowurl)
                 except:
