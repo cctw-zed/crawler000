@@ -56,6 +56,9 @@ class TianJinSpider(object):
             for taga in tagas:
                 try:
                     nowurl = urljoin(url,taga.find('a').get('href'))
+                    title = taga.find('a').get_text()
+                    if self.es.isExist(title):
+                        continue
                     # if self.connection.isexist(nowurl)==False:
                     rep = self.crawl(nowurl)
                     self.aimPageParse(rep,nowurl)

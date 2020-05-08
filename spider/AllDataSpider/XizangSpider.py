@@ -61,7 +61,9 @@ class XizangSpider(object):
             for taga in tagas:
                 try:
                     nowurl = urljoin(url,taga.get('href'))
-                    # if self.connection.isexist(nowurl)==False:
+                    title = taga.get_text()
+                    if self.es.isExist(title):
+                        continue
                     rep = self.crawl(nowurl)
                     self.aimPageParse(rep,nowurl)
                 except:
