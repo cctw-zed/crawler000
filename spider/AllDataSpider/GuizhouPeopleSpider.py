@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import re
 # from ConOfAllData import ConOfAllData
-from AllDataSpider.ES import ES
+from ES import ES
 
 class GuizhouPeopleSpider(object):
     def __init__(self):
