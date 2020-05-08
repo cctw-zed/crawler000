@@ -68,7 +68,7 @@ class Search(Resource):
                     contentlist.append(need_content)
 
                 data["contentlist"] = contentlist
-                data["pageindex"] = paramspi
+                data["pageindex"] = paramspi + 1
                 data["totalnumber"] = length
                 re["data"] = data
 
