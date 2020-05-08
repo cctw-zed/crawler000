@@ -124,4 +124,4 @@ api.add_resource(Search, '/search/api')
 api.add_resource(Canbegin, "/canbegin/api")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
