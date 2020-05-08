@@ -20,7 +20,8 @@ class JiangSuPeopleSpider(object):
     }
 
         # self.connection = ConOfAllData('jiangsu')
-        self.es = ES()
+        # self.es = ES()
+        self.es = ES('allspider')
         self.start_list = [
             'http://www.jsrd.gov.cn/sy/xw_syxw/',
 
@@ -59,6 +60,10 @@ class JiangSuPeopleSpider(object):
             for taga in tagas:
                 try:
                     nowurl = urljoin(url,taga.get('href'))
+                    title = taga.get_text()
+                    if self.es.isExist(title):
+                        continue
+                    
                     # if self.connection.isexist(nowurl)==False:
                     rep = self.crawl(nowurl)
                     self.aimPageParse(rep,nowurl)

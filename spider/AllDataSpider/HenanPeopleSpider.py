@@ -7,7 +7,8 @@ from ES import ES
 class HenanPeopleSpider(object):
     def __init__(self):
         # self.coad = ConOfAllData("henanrenda")
-        self.es = ES()
+        # self.es = ES()
+        self.es = ES('allspider')
         self.headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
             'Accept-Encoding': 'gzip, deflate',
@@ -24,7 +25,7 @@ class HenanPeopleSpider(object):
             response.encoding = "UTF-8"
             page = response.text
             self.parserPage(page)
-            sleep(0.5)
+            sleep(0.3)
 
     def parserPage(self, page):
         soup = BeautifulSoup(page, 'lxml')
@@ -41,9 +42,11 @@ class HenanPeopleSpider(object):
                 res = {}
                 res["real_url"] = real_url
                 res['title'] = urlandtitle.get_text()
+                if self.es.isExist(res['title']):
+                    continue
                 res['time'] = item.find("span").get_text()[1:11]
                 res['site'] = "河南人大网"
-                # sleep(0.1)
+                sleep(0.1)
                 res['abstract'] = self.get_content(real_url)
                 # print(res)
                 self.es.InsertData(res)

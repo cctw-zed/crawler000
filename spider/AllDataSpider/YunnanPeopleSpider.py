@@ -19,7 +19,8 @@ class YunnanPeopleSpider(object):
             'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) Gecko/20100101 Firefox/72.0'
         }
         # self.ConOfAllData("yunnan")
-        self.es = ES()
+        # self.es = ES()
+        self.es = ES('allspider')
         self.baseUrl = 'http://www.srd.yn.gov.cn/'
         self.urlList = {
             'rdyw/',
@@ -74,6 +75,8 @@ class YunnanPeopleSpider(object):
                 # if not self.ConOfAllData.isexist(articleUrl):
                 res = {}
                 res['title'] = a.get_text()
+                if self.es.isExist(res['title']):
+                    continue
                 res['real_url'] = articleUrl
                 res['abstract'] = self.parseArt(articleUrl)
                 res['time'] = li.find('span').get_text()

@@ -36,6 +36,7 @@ class my_easy_class(Resource):
     def post(self):
         args = parser.parse_args()
         keyword = args['keyword']
+
         #爬虫
         baiduspider = BaiduSpider(keyword)
         beijingSpider = BeijingSpider(keyword)

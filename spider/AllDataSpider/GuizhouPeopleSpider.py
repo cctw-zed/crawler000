@@ -3,12 +3,13 @@ from bs4 import BeautifulSoup
 import requests
 import re
 # from ConOfAllData import ConOfAllData
-# from ES import ES
+from ES import ES
 
 class GuizhouPeopleSpider(object):
     def __init__(self):
         # self.coad = ConOfAllData("guizhourenda")
-        self.es = ES()
+        # self.es = ES()
+        self.es = ES('allspider')
         self.http_head = "http://www.gzrd.gov.cn"
         self.headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -30,7 +31,7 @@ class GuizhouPeopleSpider(object):
             self.parserPage(page)
             url = url_head + "index_" + str(page_index) + ".shtml"
             page_index += 1
-            sleep(0.5)
+            sleep(0.3)
             response = requests.get(url, headers=self.headers)
 
     def parserPage(self, page):
@@ -47,6 +48,8 @@ class GuizhouPeopleSpider(object):
             res = {}
             res["real_url"] = real_url
             res['title'] = hrefandtitle.get("title")
+            if self.es.isExist(res['title']):
+                continue
             res['time'] = item.find("span").get_text()
             res['site'] = '贵州人大网'
             sleep(0.1)
@@ -100,7 +103,10 @@ class GuizhouPeopleSpider(object):
             "http://www.gzrd.gov.cn/dffg/zztldxtl/"
         ]
         for item in url_head:
-            self.getPage(item)
+            try:
+                self.getPage(item)
+            except:
+                continue
         # self.coad.end()
 
 

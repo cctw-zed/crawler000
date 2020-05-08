@@ -8,7 +8,8 @@ from ES import ES
 class XinjiangPeopleSpider(object):
     def __init__(self):
         # self.coad = ConOfAllData("xinjiangrenda")
-        self.es = ES()
+        # self.es = ES()
+        self.es = ES('allspider')
         self.http_head = "http://www.xjpcsc.gov.cn"
         self.headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -48,9 +49,11 @@ class XinjiangPeopleSpider(object):
                 res = {}
                 res["real_url"] = real_url
                 res['title'] = item.find("a").get_text()
+                if self.es.isExist(res['title']):
+                    continue
                 res['time'] = item.find("span").get_text()[1:11]
                 res['site'] = '新疆人大网'
-                # sleep(0.1)
+                sleep(0.1)
                 res['abstract'] = self.get_content(real_url)
                 # self.coad.insert(res)
                 self.es.InsertData(res)

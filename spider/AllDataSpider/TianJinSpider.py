@@ -21,7 +21,8 @@ class TianJinSpider(object):
     }
 
         # self.connection = ConOfAllData('tianjin')
-        self.es = ES()
+        # self.es = ES()
+        self.es = ES('allspider')
         self.start_list = [
             'http://www.tjrd.gov.cn/xwzx/system/count//0003016/000000000000/000/000/c0003016000000000000_0000000{}.shtml',
             'http://www.tjrd.gov.cn/xwzx/system/count//0003001/000000000000/000/000/c0003001000000000000_0000000{}.shtml',
@@ -55,6 +56,9 @@ class TianJinSpider(object):
             for taga in tagas:
                 try:
                     nowurl = urljoin(url,taga.find('a').get('href'))
+                    title = taga.find('a').get_text()
+                    if self.es.isExist(title):
+                        continue
                     # if self.connection.isexist(nowurl)==False:
                     rep = self.crawl(nowurl)
                     self.aimPageParse(rep,nowurl)

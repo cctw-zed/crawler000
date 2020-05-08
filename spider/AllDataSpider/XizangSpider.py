@@ -20,7 +20,8 @@ class XizangSpider(object):
     }
 
         # self.connection = ConOfAllData('xizang')
-        self.es = ES()
+        # self.es = ES()
+        self.es = ES('allspider')
         self.start_list = [
             'http://www.xizangrd.gov.cn/List/19-{}.htm',
             'http://www.xizangrd.gov.cn/List/4-{}.htm',
@@ -38,7 +39,7 @@ class XizangSpider(object):
         ]
     # 抓取url得到response
     def crawl(self, url):
-        time.sleep(1)
+        time.sleep(0.3)
         # s = requests.session
         try:
             session = requests.session()
@@ -60,7 +61,9 @@ class XizangSpider(object):
             for taga in tagas:
                 try:
                     nowurl = urljoin(url,taga.get('href'))
-                    # if self.connection.isexist(nowurl)==False:
+                    title = taga.get_text()
+                    if self.es.isExist(title):
+                        continue
                     rep = self.crawl(nowurl)
                     self.aimPageParse(rep,nowurl)
                 except:

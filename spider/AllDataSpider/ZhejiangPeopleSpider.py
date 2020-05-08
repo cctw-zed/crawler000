@@ -23,7 +23,8 @@ class ZhejiangPeopleSpider(object):
            'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:72.0) Gecko/20100101 Firefox/72.0'
         }
         # self.ConOfAllData("zhejiang")
-        self.es = ES()
+        # self.es = ES()
+        self.es = ES('allspider')
         self.baseUrl = 'http://www.zjrd.gov.cn/'
         self.urlList = {
             'rdgl/gzzd/','rdgl/rdzs/',
@@ -77,13 +78,15 @@ class ZhejiangPeopleSpider(object):
                     # if not self.ConOfAllData.isexist(articleUrl):
                     res = {}
                     res['title'] = a.get_text()
+                    if self.es.isExist(res['title']):
+                        print('已存在')
+                        continue
                     res['real_url'] = articleUrl
                     res['abstract'] = self.parseArt(articleUrl)
                     res['time'] = table.find('td', attrs={'width':'12%'}).get_text()
-                    print(type(res['time']))
                     res['site'] = '浙江人大网'
                     # print(res)
-                    # self.es.InsertData(res)
+                    self.es.InsertData(res)
                     # print(res)
                     # self.ConOfAllData.insert(res)
                 except:
@@ -100,7 +103,7 @@ class ZhejiangPeopleSpider(object):
             # self.ConOfAllData.end()
 
 if __name__ == "__main__":
-    t1 = 1, time.time()
+#     t1 = 1, time.time()
     spider = ZhejiangPeopleSpider()
     spider.run()
-    print('Total time: %.1f s' % (time.time() - t1))  # 53 s
+#     print('Total time: %.1f s' % (time.time() - t1))  # 53 s
