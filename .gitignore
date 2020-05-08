@@ -2,3 +2,4 @@
 Search/es/__init__.py
 */__pycache__
 spider/AllDataSpider/test.py
+venv/
