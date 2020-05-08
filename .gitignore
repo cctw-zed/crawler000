@@ -13,3 +13,4 @@ spider/AllDataSpider/__pycache__/XizangSpider.cpython-37.pyc
 spider/AllDataSpider/__pycache__/YunnanPeopleSpider.cpython-37.pyc
 spider/AllDataSpider/__pycache__/ZhejiangPeopleSpider.cpython-37.pyc
 spider/AllDataSpider/test.py
+*/__pycache__
