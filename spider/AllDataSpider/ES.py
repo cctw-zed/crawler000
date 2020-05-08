@@ -28,7 +28,7 @@ class ES(object):
     def InsertData(self, body):
         # 将主键id修改为title，防止重复。且index函数自带更新功能
         result = self.es.index(index=self.indexName ,id=body['title'],ignore=[400,409],body=body)
-        # print(result)
+        print(result)
 
     def search(self, *args):
         keyword = " ".join(str(i) for i in args)
@@ -48,27 +48,27 @@ class ES(object):
 
 
 if __name__ == '__main__':
-    # es = ES('allspider')
-    # result = es.search(['会议'])
-    # print(len(result["hits"]["hits"]))
-    # for item in result["hits"]["hits"]:
-    #     print(item["_source"])
-    es = Elasticsearch()
-    es.indices.create(index='allspider', ignore=[400,404])
-    mapping = {
-        'properties': {
-            'title': {
-                'type': 'text',
-                'analyzer': 'ik_max_word',
-                'search_analyzer': 'ik_max_word'
-            },
-            'abstract': {
-                'type': 'text',
-                'analyzer': 'ik_max_word',
-                'search_analyzer': 'ik_max_word'
-            }
-        }
-    }
-    result = es.indices.put_mapping(index='allspider', body=mapping)
-    print(result)
+     es = ES('allspider')
+     result = es.search(['会议'])
+     print(len(result["hits"]["hits"]))
+     #for item in result["hits"]["hits"]:
+     #    print(item["_source"])
+#    es = Elasticsearch()
+#    es.indices.create(index='allspider', ignore=[400,404])
+#    mapping = {
+#        'properties': {
+#            'title': {
+#                'type': 'text',
+#                'analyzer': 'ik_max_word',
+#                'search_analyzer': 'ik_max_word'
+#            },
+#            'abstract': {
+#                'type': 'text',
+#                'analyzer': 'ik_max_word',
+#                'search_analyzer': 'ik_max_word'
+#            }
+#        }
+#    }
+#    result = es.indices.put_mapping(index='allspider', body=mapping)
+#    print(result)
     # result['hits']['hits']
