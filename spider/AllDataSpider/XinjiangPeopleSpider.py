@@ -49,6 +49,8 @@ class XinjiangPeopleSpider(object):
                 res = {}
                 res["real_url"] = real_url
                 res['title'] = item.find("a").get_text()
+                if self.es.isExist(res['title']):
+                    continue
                 res['time'] = item.find("span").get_text()[1:11]
                 res['site'] = '新疆人大网'
                 sleep(0.1)

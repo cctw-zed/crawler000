@@ -42,6 +42,8 @@ class HenanPeopleSpider(object):
                 res = {}
                 res["real_url"] = real_url
                 res['title'] = urlandtitle.get_text()
+                if self.es.isExist(res['title']):
+                    continue
                 res['time'] = item.find("span").get_text()[1:11]
                 res['site'] = "河南人大网"
                 sleep(0.1)
