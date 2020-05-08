@@ -79,6 +79,8 @@ class NeimengPeopleSpider(object):
                 # 注释部分用来按时间筛选
                 # time_stamp_1 = time.mktime(time.strptime('2019-01-01', '%Y-%m-%d'))
                 createdtime = li.find('span').get_text()
+                # title = re.search(r'\'([\u4e00-\u9fa5]+.*)\'', str(li), re.M).group(1)
+                # print(title)
                 # time_stamp_2 = time.mktime(time.strptime(createdtime, '%Y-%m-%d'))
                 # if time_stamp_1 > time_stamp_2:
                 #     continue
