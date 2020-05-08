@@ -1,5 +1,5 @@
 import traceback
-from flask import Flask
+from flask import Flask, make_response
 from time import sleep
 from AllDataSpider.ES import ES
 from flask_restful import reqparse, abort, Api, Resource
@@ -179,8 +179,9 @@ class Search(Resource):
                         print("有搜索结果，但是有搜索入口的需要爬取")
                     else:
                         print("有搜索结果，已经在爬取了，不要重复点击")
-
-                return re
+                response = make_response(re)
+                response.headers['Access-Control-Allow-Origin'] = '*'
+                return response
         except:
             traceback.print_exc()
 
@@ -205,7 +206,9 @@ class Canbegin(Resource):
                 else:
                     print("没有任何结果，带有搜索的爬虫已经在爬取了，不要重复点击")
                     re = {"feedback": "1"}
-            return re
+            response = make_response(re)
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            return response
         except:
             traceback.print_exc()
 

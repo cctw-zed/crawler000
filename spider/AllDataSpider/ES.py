@@ -30,10 +30,6 @@ class ES(object):
         result = self.es.index(index=self.indexName ,id=body['title'],ignore=[400,409],body=body)
         print(result)
 
-
-    def isExist(self, title):
-        return self.es.exists(index=self.indexName, id=title)
-
     def search(self, *args):
         keyword = " ".join(str(i) for i in args)
         dsl = {
@@ -52,29 +48,27 @@ class ES(object):
 
 
 if __name__ == '__main__':
-    es = ES('allspider')
-    result = es.isExist('省人大常委会免职名单')
-    print(result)
-    # result = es.search(['会议'])
-    # print(len(result["hits"]["hits"]))
-    # for item in result["hits"]["hits"]:
-    #     print(item["_source"])
-    # es = Elasticsearch()
-    # es.indices.create(index='allspider', ignore=[400,404])
-    # mapping = {
-    #     'properties': {
-    #         'title': {
-    #             'type': 'text',
-    #             'analyzer': 'ik_max_word',
-    #             'search_analyzer': 'ik_max_word'
-    #         },
-    #         'abstract': {
-    #             'type': 'text',
-    #             'analyzer': 'ik_max_word',
-    #             'search_analyzer': 'ik_max_word'
-    #         }
-    #     }
-    # }
-    # result = es.indices.put_mapping(index='allspider', body=mapping)
-    # print(result)
+     es = ES('allspider')
+     result = es.search(['会议'])
+     print(len(result["hits"]["hits"]))
+     #for item in result["hits"]["hits"]:
+     #    print(item["_source"])
+#    es = Elasticsearch()
+#    es.indices.create(index='allspider', ignore=[400,404])
+#    mapping = {
+#        'properties': {
+#            'title': {
+#                'type': 'text',
+#                'analyzer': 'ik_max_word',
+#                'search_analyzer': 'ik_max_word'
+#            },
+#            'abstract': {
+#                'type': 'text',
+#                'analyzer': 'ik_max_word',
+#                'search_analyzer': 'ik_max_word'
+#            }
+#        }
+#    }
+#    result = es.indices.put_mapping(index='allspider', body=mapping)
+#    print(result)
     # result['hits']['hits']
