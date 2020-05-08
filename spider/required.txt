@@ -1,0 +1,4 @@
+flask-restful-0.3.8
+requests-2.23.0
+pymongo-3.10.1
+BeautifulSoup4-4.9.0
