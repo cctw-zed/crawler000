@@ -75,6 +75,8 @@ class YunnanPeopleSpider(object):
                 # if not self.ConOfAllData.isexist(articleUrl):
                 res = {}
                 res['title'] = a.get_text()
+                if self.es.isExist(res['title']):
+                    continue
                 res['real_url'] = articleUrl
                 res['abstract'] = self.parseArt(articleUrl)
                 res['time'] = li.find('span').get_text()
