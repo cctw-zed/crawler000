@@ -114,7 +114,7 @@ class HebeiPeopleSpider(object):
                         url = item_url.format( '0' + str(i))
                    
                     try:
-                        print(url)
+                        # print(url)
                         rep = self.crawl(url)
                         if rep!=False and rep!=None:
                             self.parse(rep,url)
