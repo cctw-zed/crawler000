@@ -61,8 +61,8 @@ class ShanghaiSpider(object):
                 res['time'] = time
                 res['site'] = '上海人大网'
                 res['keyword'] = self.keyword
-                # self.connection.insert(res)
-                print(res)
+                self.connection.insert(res)
+                # print(res)
             except:
                 print('上海人大解析出错')
                 continue

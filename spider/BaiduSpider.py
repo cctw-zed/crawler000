@@ -91,7 +91,5 @@ class BaiduSpider(object):
             for j in range(3):
                 sleep(1)
                 res = self.getContent(self.keyword, j + 1, site)
-                #print(res)
-        print("sasss")
-        self.connection.deleteKeyword(self.keyword)
-        
+                # print(res)
+
