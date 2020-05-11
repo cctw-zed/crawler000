@@ -123,6 +123,4 @@ api.add_resource(Search, '/api/search')
 api.add_resource(Canbegin, "/api/canbegin")
 
 if __name__ == '__main__':
-    # app.run(host="0.0.0.0", debug=True)
-    anhui = AnhuiSpider()
-    anhui.run()
+    app.run(host="0.0.0.0", debug=True)
