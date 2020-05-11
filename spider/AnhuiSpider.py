@@ -1,6 +1,7 @@
 from time import sleep
 from bs4 import BeautifulSoup
-from ConnectMongoDB import MyMongoDB
+# from ConnectMongoDB import MyMongoDB
+from ConnectToElasticSearch import ConnectToElasticSearch
 import requests
 import urllib.request
 import re
@@ -20,7 +21,7 @@ class AnhuiSpider(object):
         self.keyword = keyword
         self.pageNum = pageNum
         self.pageSize = pageSize
-        self.connection = MyMongoDB()
+        self.connection = ConnectToElasticSearch()
         
     
     def getPage(self, pageIndex):

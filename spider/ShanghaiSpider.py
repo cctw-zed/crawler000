@@ -1,6 +1,7 @@
 from time import sleep
 from bs4 import BeautifulSoup
 from ConnectMongoDB import MyMongoDB
+from ConnectToElasticSearch import ConnectToElasticSearch
 import requests
 import urllib.request
 import re
@@ -19,8 +20,8 @@ class ShanghaiSpider(object):
         self.keyword = keyword
         self.pageNum = pageNum
         self.pageSize = pageSize
-        self.connection = MyMongoDB()
-        
+        self.connection = ConnectToElasticSearch()
+
     
     def getPage(self, pageIndex):
         url = 'http://searchgov1.eastday.com/searchspscs/search.ashx'
@@ -60,8 +61,8 @@ class ShanghaiSpider(object):
                 res['time'] = time
                 res['site'] = '上海人大网'
                 res['keyword'] = self.keyword
-                # self.connection.insert(res)
-                print(res)
+                self.connection.insert(res)
+                # print(res)
             except:
                 print('上海人大解析出错')
                 continue

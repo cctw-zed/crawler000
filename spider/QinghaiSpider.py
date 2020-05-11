@@ -1,6 +1,7 @@
 from time import sleep
 from bs4 import BeautifulSoup
 from ConnectMongoDB import MyMongoDB
+from ConnectToElasticSearch import ConnectToElasticSearch
 import requests
 import urllib.request
 import re
@@ -19,8 +20,8 @@ class Qinghai(object):
         self.keyword = keyword
         self.pageNum = pageNum
         self.pageSize = pageSize
-        self.connection = MyMongoDB()
-        
+        self.connection = ConnectToElasticSearch()
+
     
     def getPage(self, pageIndex):
         url = 'http://www.qhrd.gov.cn/search/Default.aspx?q='+self.keyword+'&ie=utf-8&portalid=1&image.x=0&image.y=0'

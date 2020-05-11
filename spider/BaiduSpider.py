@@ -1,6 +1,7 @@
 import urllib
 from time import sleep
 from ConnectMongoDB import MyMongoDB
+from ConnectToElasticSearch import ConnectToElasticSearch
 import requests
 from bs4 import BeautifulSoup
 
@@ -8,7 +9,7 @@ class BaiduSpider(object):
 
     def __init__(self, keyword):
         self.keyword = keyword
-        self.connection = MyMongoDB()
+        self.connection = ConnectToElasticSearch()
         self.headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
             'Accept-Encoding': 'deflate, br',
@@ -90,7 +91,5 @@ class BaiduSpider(object):
             for j in range(3):
                 sleep(1)
                 res = self.getContent(self.keyword, j + 1, site)
-                #print(res)
-        print("sasss")
-        self.connection.deleteKeyword(self.keyword)
-        
+                # print(res)
+

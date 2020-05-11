@@ -1,6 +1,7 @@
 from time import sleep
 import requests
 from ConnectMongoDB import MyMongoDB
+from ConnectToElasticSearch import ConnectToElasticSearch
 import json
 
 class XinhuaSpider(object):
@@ -15,7 +16,7 @@ class XinhuaSpider(object):
         self.keyword = keyword
         self.pageNum = pageNum
         self.pageSize = pageSize
-        self.connection = MyMongoDB()
+        self.connection = ConnectToElasticSearch()
         self.baseUrl = 'http://so.news.cn/getNews'
 
     def getResponse(self, keyword, pageIndex):
