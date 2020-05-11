@@ -1,6 +1,7 @@
 from time import sleep
 from bs4 import BeautifulSoup
 from ConnectMongoDB import MyMongoDB
+from ConnectToElasticSearch import ConnectToElasticSearch
 import requests
 
 class ChinaPeopleSpider(object):
@@ -16,7 +17,7 @@ class ChinaPeopleSpider(object):
         self.keyword = keyword
         self.pageNum = pageNum
         self.pageSize = pageSize
-        self.connection = MyMongoDB()
+        self.connection = ConnectToElasticSearch()
 
     def getUrl(self,keyword,pageIndex):
         url = 'http://zs.kaipuyun.cn/s'

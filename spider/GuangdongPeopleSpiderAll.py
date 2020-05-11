@@ -1,6 +1,7 @@
 from time import sleep
 from bs4 import BeautifulSoup
 from ConnectMongoDB import MyMongoDB
+from ConnectToElasticSearch import ConnectToElasticSearch
 import requests
 import urllib.request
 import time
@@ -21,8 +22,8 @@ class GuangdongSpider(object):
         self.base_url = 'http://www.rd.gd.cn/'
         self.seen = set()
         self.unseen = set([self.base_url, ])
-        self.connection = MyMongoDB()
-        
+        self.connection = ConnectToElasticSearch()
+
     # 抓取url得到response
     def crawl(self, url):
         # s = requests.session

@@ -4,7 +4,6 @@ from time import sleep
 from ES import ES
 from flask_restful import reqparse, abort, Api, Resource
 import threading
-
 # 做简单的Application初始化
 app = Flask(__name__)
 api = Api(app)  # 用Api来绑定app
@@ -124,4 +123,6 @@ api.add_resource(Search, '/api/search')
 api.add_resource(Canbegin, "/api/canbegin")
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True)
+    # app.run(host="0.0.0.0", debug=True)
+    anhui = AnhuiSpider()
+    anhui.run()

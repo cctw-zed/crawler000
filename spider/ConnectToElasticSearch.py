@@ -39,7 +39,8 @@ class ConnectToElasticSearch(object):
             if self.mybloom.isExist(res['title']):
                 result = self.es.index(index=self.indexName, id=res['title'], body=res, ignore=[400,409])
                 print(result)
-        print('未插入')
+        else:
+            print('未插入')
 
     # 在working表中删除关键词
     # def deleteKeyword(self, keyword):

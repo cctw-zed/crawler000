@@ -1,6 +1,7 @@
 from time import sleep
 from bs4 import BeautifulSoup
-from ConnectMongoDB import MyMongoDB
+# from ConnectMongoDB import MyMongoDB
+from ConnectToElasticSearch import ConnectToElasticSearch
 import requests
 import re
 
@@ -19,8 +20,8 @@ class BeijingSpider(object):
         self.keyword = keyword
         self.pageNum = pageNum
         self.pageSize = pageSize
-        self.connection = MyMongoDB()
-        
+        self.connection = ConnectToElasticSearch()
+
   
     def getPage(self, pageIndex):
         url = 'http://sousuo.bjrd.gov.cn:8080/was5/web/search'
