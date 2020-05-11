@@ -170,7 +170,9 @@ class Search(Resource):
             if length == 0:
                 re = {}
                 re["success"] = False
-                return re
+                response = make_response(re)
+                response.headers['Access-Control-Allow-Origin'] = '*'
+                return response
             else:
                 re = {}
                 re["success"] = True
