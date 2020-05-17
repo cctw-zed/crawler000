@@ -1,5 +1,6 @@
 /Search/search/node_modules/
 Search/es/__init__.py
-*/__pycache__
+__pycache__/
 spider/AllDataSpider/test.py
-venv/
+/venv/
+.idea/
