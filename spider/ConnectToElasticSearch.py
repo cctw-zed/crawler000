@@ -5,7 +5,10 @@ from elasticsearch import Elasticsearch
 class ConnectToElasticSearch(object):
 
     def __init__(self):
-        self.es = Elasticsearch()
+        self.es = Elasticsearch(
+	['http://elastic:eE4bpZGURtsXok@localhost:9200/'],
+	verify_certs=True
+	)
         self.indexName = 'prespider'
         self.mybloom = MyBloom()
 
